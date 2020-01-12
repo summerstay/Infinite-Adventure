@@ -7,8 +7,8 @@ You will need to download their 1558M model into the "models" subfolder of GPT-2
 All of these files go in the "src" subfolder of that project.
 The game can save game files to that directory, so make sure it has permissions to do so.
 The game has the following additional dependencies (besides GPT-2):
-fire, json, os, numpy, tensorflow, random, pickle, pyinflect
-you can install most of these using "pip install".
+fire, json, os, numpy, tensorflow, random, pickle, pyinflect.
+You can install most of these using "pip install".
 
 Gameplay instructions:
  Infinite Adventure is primarily an exploration game. You can type anything you want at the prompt, as long as it starts with a verb. A few verbs have special effects:
