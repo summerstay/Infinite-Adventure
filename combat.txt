@@ -1,0 +1,24 @@
+action: you hit the bear in the head with your hammer. 
+result: The hammer deflects off the bear's skull. It is slightly wounded. 
+response: the bear angrily attacks you with its claws. 
+consquence: the claws tear your flesh. you are badly wounded. 
+
+action: you try to cut it with your knife. 
+result: you miss. It is not wounded.
+response: the bear tries to bite you with its sharp teeth. 
+consequence: the bear can't reach you. You are not wounded.
+
+action: you wrestle it to the ground. 
+result: it is lightly wounded.
+response: the bear tries to smother you with its arm. 
+consequence: you struggle in vain. you fall unconscious.
+
+action: you shoot at the robber with your gun. 
+result: The bullet wings the robber. He is slightly wounded. 
+response: the robber comes at you with his dagger.
+consequence: he slices you across the arm. you are slightly wounded. 
+
+action: You use your fists to punch the robber. 
+result: you sock him in the jaw. He is slightly wounded.
+response: the robber stabs you in the gut with his dagger. 
+consequence: the dagger plunges into your gut. You are badly wounded.

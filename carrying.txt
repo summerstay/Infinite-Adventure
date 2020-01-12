@@ -1,0 +1,16 @@
+a cherry: okay to carry
+a car: too big to carry
+a pillow: okay to carry
+a hill: too big to carry
+the sky: too big to carry
+a book: okay to carry
+laughing: wrong sort of word
+a piano: too big to carry
+a jewel: okay to carry
+an axe: okay to carry
+a fire extinguisher: okay to carry
+a dishwasher: too big to carry
+the treasure: okay to carry
+hungry: wrong sort of word
+soft: wrong sort of word
+sweater: okay to carry
