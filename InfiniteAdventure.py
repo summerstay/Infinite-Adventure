@@ -202,7 +202,9 @@ def interact_model(
        
         else:
 ### start a new game without loading
-            interactive_flag = 0
+            precalculate = input("Would you like to pregenerate room descriptions? It takes about an hour upfront, but gameplay is faster. (Y or N) >>> ")
+            if precalculate in {"y","Y","yes"}:
+                interactive_flag = 0
             input_persona = input("Describe your character in a few words. You are >>> ")
             input_location = input("Describe where the adventure takes place in a few words.\n You would like to explore the >>> ")
             input_atmosphere = input("Describe the feeling of the place in a few adjectives, separated by commas. The " + input_location + " is >>> ")
