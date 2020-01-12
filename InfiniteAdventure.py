@@ -126,10 +126,10 @@ def interact_model(
     with open(os.path.join('models', model_name, 'hparams.json')) as f:
         hparams.override_from_dict(json.load(f))
     
-    f=open("src\\carrying.txt", "r")
+    f=open("src/carrying.txt", "r")
     if f.mode == 'r':
         carrying_prompt =f.read()
-    f=open("src\\combat.txt", "r")
+    f=open("src/combat.txt", "r")
     if f.mode == 'r':
         fight_prompt =f.read()
         
@@ -158,6 +158,8 @@ def interact_model(
             " * use OBJECT -- will only work with items in your inventory.\n\n"
             " * drop OBJECT -- drops an object from your inventory.\n\n"
             " * inventory -- prints your inventory.\n\n"
+            " * fight OPPONENT -- asks what you want to do and what weapon "
+            "from your inventory (or fists, foot, etc...) you want to use.\n\n"
             " * save -- saves the game.\n\n"
             " * regenerate -- changes the description of the current room to a "
             "new one. This is mainly used for fixing descriptions that don't "
@@ -173,7 +175,7 @@ def interact_model(
             interactive_flag = 1
             print("please choose:")
             files=[]            
-            for file in os.listdir("C:\\Users\\Doug\\Downloads\\gpt-2-master\\gpt-2-master\\"):
+            for file in os.listdir("src/"):
                  if file.endswith(".pkl"):
                      print(file[:-4])
                      files.append(file)
@@ -182,7 +184,7 @@ def interact_model(
                 filename=input("please check spelling >>> ")
                 if filename[-4:] != ".pkl":
                     filename = filename + ".pkl"
-            file = open(filename, 'rb')
+            file = open("src/" + filename, 'rb')
             data = pickle.load(file)
             descriptions=data[0]
             rooms=data[1] 
@@ -269,7 +271,7 @@ def interact_model(
                     print(rooms[index], end = " | ")
             
             if interactive_flag == 0:
-                filename='C:\\Users\\Doug\\Downloads\\gpt-2-master\\gpt-2-master\\' + input_location + '.pkl'
+                filename='src/' + input_location + '.pkl'
                 afile = open(filename, 'wb')
                 pickle_file=(descriptions,rooms, room_connections, input_persona, input_location, input_atmosphere, list(inventory), current_room)
                 pickle.dump(pickle_file, afile)
@@ -345,7 +347,7 @@ def interact_model(
                         print("Sorry, I don't recognize that. Please choose an object to get using a word from the description.")
     
                 elif next_verb == "save":
-                    filename='C:\\Users\\Doug\\Downloads\\gpt-2-master\\gpt-2-master\\' + input_location + '.pkl'
+                    filename='src/' + input_location + '.pkl'
                     afile = open(filename, 'wb')
                     pickle_file=(descriptions,rooms, room_connections, input_persona, input_location, input_atmosphere, inventory, current_room)
                     pickle.dump(pickle_file, afile)
