@@ -11,7 +11,7 @@ fire, json, os, numpy, tensorflow, random, pickle, pyinflect.
 You can install most of these using "pip install".
 
 Gameplay instructions:
- Infinite Adventure is primarily an exploration game. You can type anything you want at the prompt, as long as it starts with a verb. A few verbs have special effects:
+ Infinite Adventure is primarily an exploration game, since there is no goal except ones you set yourself. You can type anything you want at the prompt, as long as it starts with a verb. A few verbs have special effects:
 
  * go LOCATION -- takes you to that place. If the place already has a description, it appears down below. If not, you can still go there if it appears in the description but it takes a minute to generate the new description.
 
