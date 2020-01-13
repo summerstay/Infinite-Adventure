@@ -253,7 +253,7 @@ def interact_model(
                 if generation_mode !="room description":
                     print('switching to room description generation mode...')
                     generation_mode="room description"
-                    output = switch_GPT_mode(1,350,30,context, hparams, temperature)
+                    output = switch_GPT_mode(1,350,60,context, hparams, temperature)
                 generated = 0 
                 for _ in range(nsamples // batch_size):
                     print("\n generating description... ")
