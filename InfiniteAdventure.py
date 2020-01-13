@@ -138,7 +138,7 @@ def interact_model(
         np.random.seed(seed)
         tf.set_random_seed(seed)
         generation_mode = "places"
-        output = switch_GPT_mode(6,200,40,context, hparams, temperature)
+        output = switch_GPT_mode(6,100,40,context, hparams, temperature)
 
         saver = tf.train.Saver()
         ckpt = tf.train.latest_checkpoint(os.path.join('models', model_name))
@@ -221,7 +221,7 @@ def interact_model(
             
             generated = 0
             rooms=[]
-            for _ in range(nsamples // batch_size):
+            for _ in range(6 // batch_size):
                 print("*", end =" ")
                 out = sess.run(output, feed_dict={
                     context: [context_tokens for _ in range(batch_size)]
