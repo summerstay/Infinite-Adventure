@@ -3,8 +3,11 @@ My own take on something like AI Dungeon.
 
 Install instuctions:
 You first should install and get working GPT-2 from openAI (https://github.com/openai/gpt-2).
-You will need to download their 1558M model into the "models" subfolder of GPT-2.
-All of these files go in the "src" subfolder of that project.
+You will need to download their 1558M model into the "models" subfolder of GPT-2:
+
+python download_model.py 1558M
+
+All of the files for infinite-adventure go in the "src" subfolder of that project.
 The game can save game files to that directory, so make sure it has permissions to do so.
 The game has the following additional dependencies (besides GPT-2):
 fire, json, os, numpy, tensorflow, random, pickle, pyinflect.
