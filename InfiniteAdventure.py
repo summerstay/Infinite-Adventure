@@ -138,7 +138,7 @@ def interact_model(
         np.random.seed(seed)
         tf.set_random_seed(seed)
         generation_mode = "places"
-        output = switch_GPT_mode(4,100,30,context, hparams, temperature)
+        output = switch_GPT_mode(4,100,120,context, hparams, temperature)
 
         saver = tf.train.Saver()
         ckpt = tf.train.latest_checkpoint(os.path.join('models', model_name))
@@ -253,7 +253,7 @@ def interact_model(
                 if generation_mode !="room description":
                     print('switching to room description generation mode...')
                     generation_mode="room description"
-                    output = switch_GPT_mode(1,350,60,context, hparams, temperature)
+                    output = switch_GPT_mode(1,350,30,context, hparams, temperature)
                 generated = 0 
                 for _ in range(nsamples // batch_size):
                     print("\n generating description... ")
