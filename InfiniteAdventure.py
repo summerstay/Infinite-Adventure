@@ -138,7 +138,7 @@ def interact_model(
         np.random.seed(seed)
         tf.set_random_seed(seed)
         generation_mode = "places"
-        output = switch_GPT_mode(4,100,120,context, hparams, temperature)
+        output = switch_GPT_mode(6,200,40,context, hparams, temperature)
 
         saver = tf.train.Saver()
         ckpt = tf.train.latest_checkpoint(os.path.join('models', model_name))
