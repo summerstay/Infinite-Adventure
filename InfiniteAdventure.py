@@ -278,6 +278,7 @@ def interact_model(
                 pickle_file=(descriptions,rooms, room_connections, input_persona, input_location, input_atmosphere, list(inventory), current_room)
                 pickle.dump(pickle_file, afile)
                 afile.close()
+                describe_flag=1
                 print("\n saved game.")
             
             if interactive_flag == 1:
@@ -434,7 +435,7 @@ def interact_model(
                             generated += 1
                             text = enc.decode(out[i]) 
                     text=description_cleanup(text)
-                    print('\nYou ' + next_verb_past + " " + next_object + text)
+                    print('\nYou ' + next_verb_past + " " + next_object + " " + text)
                     descriptions[current_room] = prompt + " " + text + " "
                     next_verb=""
             
