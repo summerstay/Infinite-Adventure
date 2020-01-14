@@ -2,7 +2,7 @@
 My own take on something like AI Dungeon.
 
 Install instuctions:
-You first should install and get working GPT-2 from openAI (https://github.com/openai/gpt-2).
+You first should install and get working GPT-2 from openAI (https://github.com/openai/gpt-2). This requires Python 3.7 since Tensorflow won't work on Python 3.8 yet.
 You will need to download their 1558M model into the "models" subfolder of GPT-2:
 
 python download_model.py 1558M
