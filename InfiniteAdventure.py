@@ -260,10 +260,10 @@ def interact_model(
     with open(os.path.join('models', model_name, 'hparams.json')) as f:
         hparams.override_from_dict(json.load(f))
     
-    f=open("src/carrying.txt", "r", encoding="utf8")
+    f=open("src/carrying.txt", "r", errors='ignore')
     if f.mode == 'r':
         carrying_prompt =f.read()
-    f=open("src/combat.txt", "r", encoding="utf8")
+    f=open("src/combat.txt", "r", errors='ignore')
     if f.mode == 'r':
         fight_prompt =f.read()
     
@@ -327,7 +327,7 @@ def interact_model(
                 filename=input("please check spelling >>> ")
                 if filename[-4:] != ".pkl":
                     filename = filename + ".pkl"
-            file = open("src/" + filename, 'rb')
+            file = open("src/" + filename, errors='ignore')
             data = pickle.load(file)
             descriptions=data[0]
             rooms=data[1] 
@@ -355,7 +355,7 @@ def interact_model(
                 input_location=input_location[4:]
             if input_location.startswith('The '):
                 input_location=input_location[4:]
-            f=open("src/rooms.txt", "r", encoding="utf8")
+            f=open("src/rooms.txt", "r", errors='ignore')
             if f.mode == 'r':
                 contents =f.read()
             raw_text = contents + "\r\n" + input_atmosphere + " " + input_location + ":"
