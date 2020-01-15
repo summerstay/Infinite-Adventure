@@ -144,7 +144,7 @@ def interact_model(
         ckpt = tf.train.latest_checkpoint(os.path.join('models', model_name))
         saver.restore(sess, ckpt)
         msg = (
-            "\n\n\n\n\n\n\n\n\n\n\nINFINITE ADVENTURE\n\n\n\n"
+            "\n\n\n\INFINITE ADVENTURE\n\n\n\n"
             "INSTRUCTIONS: Infinite Adventure is primarily an exploration "
             "game. You can type anything you want at the prompt, as "
             "long as it starts with a verb. A few verbs have special effects:\n\n"
