@@ -474,6 +474,7 @@ def interact_model(
                 elif next_verb == "regenerate":
                     descriptions[current_room]=''
                     print("\n regenerating room description...")
+                    describe_flag = 1
                 elif next_verb == "drop":
                     if next_object in inventory:
                         print("You drop the " + next_object + ".")
@@ -517,11 +518,7 @@ def interact_model(
                 
                 #other verbs
                 if generate_more_flag == 1:
-                    generate_more_flag = 0
-                    if generation_mode != "other verb":
-                        generation_mode="other verb"
-                        print("switching to 'other verb' mode...")
-                        output = switch_GPT_mode(1,100,30, context, hparams, temperature)                                              
+                    generate_more_flag = 0                             
                     prompt = descriptions[current_room] + '\nYou ' + next_verb_past + " " + next_object
                     text=description_gen.generate(prompt)
                     text=description_cleanup(text)
