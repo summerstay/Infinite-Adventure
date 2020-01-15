@@ -260,11 +260,11 @@ def interact_model(
     with open(os.path.join('models', model_name, 'hparams.json')) as f:
         hparams.override_from_dict(json.load(f))
     
-    f=open("src/carrying.txt", "rb")
-    if f.mode == 'rb':
+    f=open("src/carrying.txt", "r", encoding="utf8")
+    if f.mode == 'r':
         carrying_prompt =f.read()
-    f=open("src/combat.txt", "rb")
-    if f.mode == 'rb':
+    f=open("src/combat.txt", "r", encoding="utf8")
+    if f.mode == 'r':
         fight_prompt =f.read()
     
     config = tf.ConfigProto(intra_op_parallelism_threads=16, inter_op_parallelism_threads=2, allow_soft_placement=True, device_count={'CPU': 32})
@@ -351,8 +351,8 @@ def interact_model(
                 input_location=input_location[4:]
             if input_location.startswith('The '):
                 input_location=input_location[4:]
-            f=open("src/rooms.txt", "rb")
-            if f.mode == 'rb':
+            f=open("src/rooms.txt", "r", encoding="utf8")
+            if f.mode == 'r':
                 contents =f.read()
             raw_text = contents + "\r\n" + input_atmosphere + " " + input_location + ":"
             print('generating places in the ' + input_location + '...')
