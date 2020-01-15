@@ -85,12 +85,162 @@ def switch_GPT_mode(
             top_k=top_k
         )
     return output 
-    
 
+class RoomGen():
+          
+
+    def __init__(self, sess, length=175, temperature=0.9, top_k=30):
+    
+        seed = None
+        batch_size=1
+        model_path='1558M'
+        self.sess = sess
+    
+        self.enc = encoder.get_encoder(model_path)
+        hparams = model.default_hparams()
+        with open(os.path.join('models\\1558M', 'hparams.json')) as f:
+            hparams.override_from_dict(json.load(f))  
+
+        self.context = tf.placeholder(tf.int32, [batch_size, None])
+        np.random.seed(seed)
+        tf.set_random_seed(seed)
+        self.output = sample.sample_sequence(
+            hparams=hparams, length=length,
+            context=self.context,
+            batch_size=batch_size,
+        )
+
+        saver = tf.train.Saver()
+        ckpt = tf.train.latest_checkpoint('models\\1558M')
+        saver.restore(self.sess, ckpt)
+            
+        
+    def generate(self, prompt):
+        context_tokens = self.enc.encode(prompt)
+        if len(context_tokens)>(1023-175):
+            context_tokens = context_tokens[-(1023-175):]
+        out = self.sess.run(self.output, feed_dict={
+                self.context: [context_tokens for _ in range(1)]
+            })[:, len(context_tokens):]
+
+        text = self.enc.decode(out[0])
+        return text
+
+class DescriptionGen():
+
+    def __init__(self, sess, length=175, temperature=0.9, top_k=30):
+    
+        seed = None
+        batch_size=1
+        model_path='1558M'
+        self.sess = sess
+    
+        self.enc = encoder.get_encoder(model_path)
+        hparams = model.default_hparams()
+        with open(os.path.join('models\\1558M', 'hparams.json')) as f:
+            hparams.override_from_dict(json.load(f))  
+
+        self.context = tf.placeholder(tf.int32, [batch_size, None])
+        np.random.seed(seed)
+        tf.set_random_seed(seed)
+        self.output = sample.sample_sequence(
+            hparams=hparams, length=length,
+            context=self.context,
+            batch_size=batch_size,
+        )
+
+        saver = tf.train.Saver()
+        ckpt = tf.train.latest_checkpoint('models\\1558M')
+        saver.restore(self.sess, ckpt)
+            
+        
+    def generate(self, prompt):
+        context_tokens = self.enc.encode(prompt)
+        if len(context_tokens)>(1023-175):
+            context_tokens = context_tokens[-(1023-175):]
+        out = self.sess.run(self.output, feed_dict={
+                self.context: [context_tokens for _ in range(1)]
+            })[:, len(context_tokens):]
+
+        text = self.enc.decode(out[0])
+        return text
+
+class CombatGen():
+
+    def __init__(self, sess, length=60, temperature=0.9, top_k=20):
+    
+        seed = None
+        batch_size=1
+        model_path='1558M'
+        self.sess = sess
+    
+        self.enc = encoder.get_encoder(model_path)
+        hparams = model.default_hparams()
+        with open(os.path.join('models\\1558M', 'hparams.json')) as f:
+            hparams.override_from_dict(json.load(f))  
+
+        self.context = tf.placeholder(tf.int32, [batch_size, None])
+        np.random.seed(seed)
+        tf.set_random_seed(seed)
+        self.output = sample.sample_sequence(
+            hparams=hparams, length=length,
+            context=self.context,
+            batch_size=batch_size,
+        )
+
+        saver = tf.train.Saver()
+        ckpt = tf.train.latest_checkpoint('models\\1558M')
+        saver.restore(self.sess, ckpt)
+            
+        
+    def generate(self, prompt):
+        context_tokens = self.enc.encode(prompt)
+        out = self.sess.run(self.output, feed_dict={
+                self.context: [context_tokens for _ in range(1)]
+            })[:, len(context_tokens):]
+
+        text = self.enc.decode(out[0])
+        return text
+
+class GetGen():
+
+    def __init__(self, sess, length=10, temperature=0.9, top_k=1):
+    
+        seed = None
+        batch_size=1
+        model_path='1558M'
+        self.sess = sess
+    
+        self.enc = encoder.get_encoder(model_path)
+        hparams = model.default_hparams()
+        with open(os.path.join('models\\1558M', 'hparams.json')) as f:
+            hparams.override_from_dict(json.load(f))  
+
+        self.context = tf.placeholder(tf.int32, [batch_size, None])
+        np.random.seed(seed)
+        tf.set_random_seed(seed)
+        self.output = sample.sample_sequence(
+            hparams=hparams, length=length,
+            context=self.context,
+            batch_size=batch_size,
+        )
+
+        saver = tf.train.Saver()
+        ckpt = tf.train.latest_checkpoint('models\\1558M')
+        saver.restore(self.sess, ckpt)
+            
+        
+    def generate(self, prompt):
+        context_tokens = self.enc.encode(prompt)
+        out = self.sess.run(self.output, feed_dict={
+                self.context: [context_tokens for _ in range(1)]
+            })[:, len(context_tokens):]
+
+        text = self.enc.decode(out[0])
+        return text
 
 def interact_model(
     model_name='1558M',
-    #model_name='345M-poetry',
     seed=None,
     nsamples=1,
     batch_size=1,
@@ -98,24 +248,8 @@ def interact_model(
     temperature=1,
     top_k=0,
 ):
-    """
-    Interactively run the model
-    :model_name=117M : String, which model to use
-    :seed=None : Integer seed for random number generators, fix seed to reproduce
-     results
-    :nsamples=1 : Number of samples to return total
-    :batch_size=1 : Number of batches (only affects speed/memory).  Must divide nsamples.
-    :length : Number of tokens in generated text
-    :temperature=1 : Float value controlling randomness in boltzmann
-     distribution. Lower temperature results in less random completions. As the
-     temperature approaches zero, the model will become deterministic and
-     repetitive. Higher temperature results in more random completions.
-    :top_k=0 : Integer value controlling diversity. 1 means only 1 word is
-     considered for each step (token), resulting in deterministic completions,
-     while 40 means 40 words are considered at each step. 0 (default) is a
-     special setting meaning no restrictions. 40 generally is a good value.
-    """
 
+    os.environ['KMP_WARNINGS'] = 'off'
     inventory = set()
     if batch_size is None:
         batch_size = 1
@@ -132,19 +266,24 @@ def interact_model(
     f=open("src/combat.txt", "r")
     if f.mode == 'r':
         fight_prompt =f.read()
-        
+    
+    config = tf.ConfigProto(intra_op_parallelism_threads=16, inter_op_parallelism_threads=2, allow_soft_placement=True, device_count={'CPU': 32})
+#   with tf.Session(config=config, graph=tf.Graph()) as sess:
     with tf.Session(graph=tf.Graph()) as sess:
+        def_gen = DescriptionGen(sess)
+        combat_gen = CombatGen(sess) 
+        get_gen = GetGen(sess)
+        room_gen =RoomGen(sess)
+        
         context = tf.placeholder(tf.int32, [batch_size, None])
         np.random.seed(seed)
         tf.set_random_seed(seed)
-        generation_mode = "places"
-        output = switch_GPT_mode(6,100,40,context, hparams, temperature)
-
+        print("***")
         saver = tf.train.Saver()
         ckpt = tf.train.latest_checkpoint(os.path.join('models', model_name))
         saver.restore(sess, ckpt)
         msg = (
-            "\n\n\n\INFINITE ADVENTURE\n\n\n\n"
+            "\n\n\n\n\n\n\n\n\n\n\nINFINITE ADVENTURE\n\n\n\n"
             "INSTRUCTIONS: Infinite Adventure is primarily an exploration "
             "game. You can type anything you want at the prompt, as "
             "long as it starts with a verb. A few verbs have special effects:\n\n"
@@ -212,24 +351,17 @@ def interact_model(
                 input_location=input_location[4:]
             if input_location.startswith('The '):
                 input_location=input_location[4:]
-            f=open("rooms.txt", "r")
+            f=open("src/rooms.txt", "r")
             if f.mode == 'r':
                 contents =f.read()
             raw_text = contents + "\r\n" + input_atmosphere + " " + input_location + ":"
             print('generating places in the ' + input_location + '...')
-            context_tokens = enc.encode(raw_text)
             
-            generated = 0
             rooms=[]
-            for _ in range(6 // batch_size):
+            for _ in range(nsamples // batch_size):
                 print("*", end =" ")
-                out = sess.run(output, feed_dict={
-                    context: [context_tokens for _ in range(batch_size)]
-                })[:, len(context_tokens):]
-                for i in range(batch_size):
-                    generated += 1
-                    text = enc.decode(out[i])                
-                    rooms = rooms + rooms_cleanup(text)           
+                text = room_gen.generate(raw_text)
+                rooms = rooms + rooms_cleanup(text)           
             
             #remove duplicates from the list of rooms
             set_rooms=set(rooms)
@@ -250,19 +382,8 @@ def interact_model(
                 #description_generator = 'The following excerpt from a novel is a long and detailed description of the ' + input_atmosphere + ' things found in the ' + rooms[current_room] + ':\nYou are ' + input_persona + '. You are in the ' + rooms[current_room] + ' within the ' + input_location + '. Here is what you see there:'
                 description_generator = 'The following excerpt from a novel is a long and detailed description of the ' + input_atmosphere + ' things found in the ' + rooms[current_room] + ':\nYou were ' + input_persona + '. You were in the ' + rooms[current_room] + ' within the ' + input_location + '. Here is what you saw there:'
                 context_tokens = enc.encode(description_generator)
-                if generation_mode !="room description":
-                    print('switching to room description generation mode...')
-                    generation_mode="room description"
-                    output = switch_GPT_mode(1,175,30,context, hparams, temperature)
-                generated = 0 
-                for _ in range(nsamples // batch_size):
-                    print("\n generating description... ")
-                    out = sess.run(output, feed_dict={
-                        context: [context_tokens for _ in range(batch_size)]
-                    })[:, len(context_tokens):]
-                    for i in range(batch_size):
-                        generated += 1
-                        text = enc.decode(out[i])
+                print("running description generator")
+                text = def_gen.generate(description_generator)
                 descriptions[current_room] = description_cleanup(text)
             if describe_flag == 1:
                 print("\n" + rooms[current_room] + "\n")
@@ -280,6 +401,7 @@ def interact_model(
                 afile.close()
                 describe_flag=1
                 print("\n saved game.")
+                
             
             if interactive_flag == 1:
                 next_command = input("\n >>>")
@@ -321,20 +443,8 @@ def interact_model(
                         print("You already have that.")
                     elif next_object in descriptions[current_room]:
                         carrying_generator = carrying_prompt + "\n" + next_object + ":"
-                        context_tokens = enc.encode(carrying_generator)
-                        generated = 0 
-                        if generation_mode != "get":
-                            generation_mode = "get"      
-                            print("switching to 'get' mode...")
-                            output = switch_GPT_mode(1,10,1, context, hparams, temperature)
-                        for _ in range(nsamples // batch_size):
-                            print("checking to see if you can get the object... ")
-                            out = sess.run(output, feed_dict={
-                                context: [context_tokens for _ in range(batch_size)]
-                            })[:, len(context_tokens):]
-                            for i in range(batch_size):
-                                generated += 1
-                                text = enc.decode(out[i])                   
+                        print("checking to see if you can get the object... ")
+                        text = get_gen.generate(carrying_generator)
                         answer = text.split(" ")
                         if answer[1] == "okay":
                             print("You pick up the " + next_object + ".")
@@ -383,24 +493,11 @@ def interact_model(
                     action = input("action (e.g. stab the bear) >>> ")
                     weapon = input("with your (weapon from your inventory) >>> ")
                     if weapon in inventory.union({"fists", "fist", "knee", "foot", "elbow", "head", "forehead", "finger", "fingers", "teeth", "voice", "hands", "hand", "feet", "knees", "elbows"}):
-                        if generation_mode != "combat":
-                            generation_mode = "combat"
-                            print("switching to combat mode...")
-                            output = switch_GPT_mode(1,60,20, context, hparams, temperature) 
-                        prompt = fight_prompt + action + " with your " + weapon + "\nresult:"
-                        print("You " + action + " with your " + weapon + ".")
-                        context_tokens = enc.encode(prompt)
-                        generated=0
-                        for _ in range(nsamples // batch_size):
-                            print("generating response:")
-                            out = sess.run(output, feed_dict={
-                                context: [context_tokens for _ in range(batch_size)]
-                            })[:, len(context_tokens):]
-                            for i in range(batch_size):
-                                generated += 1
-                                text = enc.decode(out[i]) 
-                                text=description_cleanup(text)
-                        print(text)
+                       prompt = fight_prompt + action + " with your " + weapon + "\nresult:"
+                       print("You " + action + " with your " + weapon + ".")
+                       text = combat_gen.generate(prompt)
+                       text=description_cleanup(text)
+                       print(text)
                     else:
                         print("You don't seem to have that weapon in your inventory.")
                     
@@ -422,20 +519,9 @@ def interact_model(
                         print("switching to 'other verb' mode...")
                         output = switch_GPT_mode(1,100,30, context, hparams, temperature)                                              
                     prompt = descriptions[current_room] + '\nYou ' + next_verb_past + " " + next_object
-                    context_tokens = enc.encode(prompt)
-                    if len(context_tokens)>900:
-                        context_tokens = context_tokens[-900:]
-                    generated=0
-                    for _ in range(nsamples // batch_size):
-                        print("generating response:")
-                        out = sess.run(output, feed_dict={
-                            context: [context_tokens for _ in range(batch_size)]
-                        })[:, len(context_tokens):]
-                        for i in range(batch_size):
-                            generated += 1
-                            text = enc.decode(out[i]) 
+                    text=description_gen.generate(prompt)
                     text=description_cleanup(text)
-                    print('\nYou ' + next_verb_past + " " + next_object + " " + text)
+                    print('\nYou ' + next_verb_past + " " + next_object + text)
                     descriptions[current_room] = prompt + " " + text + " "
                     next_verb=""
             
