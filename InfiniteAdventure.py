@@ -349,7 +349,7 @@ def interact_model(
             print('generating places in the ' + input_location + '...')
             
             rooms=[]
-            for _ in range(nsamples // batch_size):
+            for _ in range(6 // batch_size):
                 print("*", end =" ")
                 text = room_gen.generate(raw_text)
                 rooms = rooms + rooms_cleanup(text)           
