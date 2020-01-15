@@ -73,45 +73,6 @@ def rooms_cleanup(
     rooms3 = list(filter(None, rooms3))
     return rooms3
 
-class RoomGen():
-          
-
-    def __init__(self, sess, length=175, temperature=0.9, top_k=30):
-    
-        seed = None
-        batch_size=1
-        model_path='1558M'
-        self.sess = sess
-    
-        self.enc = encoder.get_encoder(model_path)
-        hparams = model.default_hparams()
-        with open(os.path.join('models/1558M', 'hparams.json')) as f:
-            hparams.override_from_dict(json.load(f))  
-
-        self.context = tf.placeholder(tf.int32, [batch_size, None])
-        np.random.seed(seed)
-        tf.set_random_seed(seed)
-        self.output = sample.sample_sequence(
-            hparams=hparams, length=length,
-            context=self.context,
-            batch_size=batch_size,
-        )
-
-        saver = tf.train.Saver()
-        ckpt = tf.train.latest_checkpoint('models/1558M')
-        saver.restore(self.sess, ckpt)
-            
-        
-    def generate(self, prompt):
-        context_tokens = self.enc.encode(prompt)
-        if len(context_tokens)>800:
-            context_tokens = context_tokens[-800:]
-        out = self.sess.run(self.output, feed_dict={
-                self.context: [context_tokens for _ in range(1)]
-            })[:, len(context_tokens):]
-
-        text = self.enc.decode(out[0])
-        return text
 
 class DescriptionGen():
 
@@ -152,42 +113,6 @@ class DescriptionGen():
         text = self.enc.decode(out[0])
         return text
 
-class CombatGen():
-
-    def __init__(self, sess, length=60, temperature=0.9, top_k=20):
-    
-        seed = None
-        batch_size=1
-        model_path='1558M'
-        self.sess = sess
-    
-        self.enc = encoder.get_encoder(model_path)
-        hparams = model.default_hparams()
-        with open(os.path.join('models/1558M', 'hparams.json')) as f:
-            hparams.override_from_dict(json.load(f))  
-
-        self.context = tf.placeholder(tf.int32, [batch_size, None])
-        np.random.seed(seed)
-        tf.set_random_seed(seed)
-        self.output = sample.sample_sequence(
-            hparams=hparams, length=length,
-            context=self.context,
-            batch_size=batch_size,
-        )
-
-        saver = tf.train.Saver()
-        ckpt = tf.train.latest_checkpoint('models/1558M')
-        saver.restore(self.sess, ckpt)
-            
-        
-    def generate(self, prompt):
-        context_tokens = self.enc.encode(prompt)
-        out = self.sess.run(self.output, feed_dict={
-                self.context: [context_tokens for _ in range(1)]
-            })[:, len(context_tokens):]
-
-        text = self.enc.decode(out[0])
-        return text
 
 class GetGen():
 
@@ -259,20 +184,17 @@ def interact_model(
     with tf.Session(graph=tf.Graph()) as sess:
         print("defgen")
         description_gen = DescriptionGen(sess)
-        print("combatgen")
-        combat_gen = CombatGen(sess) 
         print("getgen")
         get_gen = GetGen(sess)
-        print("roomgen")
-        room_gen =RoomGen(sess)
+
         
         context = tf.placeholder(tf.int32, [batch_size, None])
         np.random.seed(seed)
         tf.set_random_seed(seed)
         print("***")
-        saver = tf.train.Saver()
-        ckpt = tf.train.latest_checkpoint(os.path.join('models', model_name))
-        saver.restore(sess, ckpt)
+        #saver = tf.train.Saver()
+        #ckpt = tf.train.latest_checkpoint(os.path.join('models', model_name))
+        #saver.restore(sess, ckpt)
         msg = (
             "\n\n\n\n\n\n\n\n\n\n\nINFINITE ADVENTURE\n\n\n\n"
             "INSTRUCTIONS: Infinite Adventure is primarily an exploration "
@@ -349,9 +271,9 @@ def interact_model(
             print('generating places in the ' + input_location + '...')
             
             rooms=[]
-            for _ in range(6 // batch_size):
+            for _ in range(4 // batch_size):
                 print("*", end =" ")
-                text = room_gen.generate(raw_text)
+                text = description_gen.generate(raw_text)
                 rooms = rooms + rooms_cleanup(text)           
             
             #remove duplicates from the list of rooms
@@ -370,11 +292,11 @@ def interact_model(
  ### main loop
             if "".__eq__(descriptions[current_room]):            
                 # print("\n" + rooms[current_room] + "\n")
-                #description_generator = 'The following excerpt from a novel is a long and detailed description of the ' + input_atmosphere + ' things found in the ' + rooms[current_room] + ':\nYou are ' + input_persona + '. You are in the ' + rooms[current_room] + ' within the ' + input_location + '. Here is what you see there:'
-                description_generator = 'The following excerpt from a novel is a long and detailed description of the ' + input_atmosphere + ' things found in the ' + rooms[current_room] + ':\nYou were ' + input_persona + '. You were in the ' + rooms[current_room] + ' within the ' + input_location + '. Here is what you saw there:'
-                context_tokens = enc.encode(description_generator)
+                #description_prompt = 'The following excerpt from a novel is a long and detailed description of the ' + input_atmosphere + ' things found in the ' + rooms[current_room] + ':\nYou are ' + input_persona + '. You are in the ' + rooms[current_room] + ' within the ' + input_location + '. Here is what you see there:'
+                description_prompt = 'The following excerpt from a novel is a long and detailed description of the ' + input_atmosphere + ' things found in the ' + rooms[current_room] + ':\nYou were ' + input_persona + '. You were in the ' + rooms[current_room] + ' within the ' + input_location + '. Here is what you saw there:'
+               
                 print("running description generator")
-                text = description_gen.generate(description_generator)
+                text = description_gen.generate(description_prompt)
                 descriptions[current_room] = description_cleanup(text)
             if describe_flag == 1:
                 print("\n" + rooms[current_room] + "\n")
@@ -487,7 +409,7 @@ def interact_model(
                     if weapon in inventory.union({"fists", "fist", "knee", "foot", "elbow", "head", "forehead", "finger", "fingers", "teeth", "voice", "hands", "hand", "feet", "knees", "elbows"}):
                        prompt = fight_prompt + action + " with your " + weapon + "\nresult:"
                        print("You " + action + " with your " + weapon + ".")
-                       text = combat_gen.generate(prompt)
+                       text = description_gen.generate(prompt)
                        text=description_cleanup(text)
                        print(text)
                     else:
