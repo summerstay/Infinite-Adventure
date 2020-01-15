@@ -509,7 +509,7 @@ def interact_model(
                     prompt = descriptions[current_room] + '\nYou ' + next_verb_past + " " + next_object
                     text=description_gen.generate(prompt)
                     text=description_cleanup(text)
-                    print('\nYou ' + next_verb_past + " " + next_object + text)
+                    print('\nYou ' + next_verb_past + " " + next_object + " " + text)
                     descriptions[current_room] = prompt + " " + text + " "
                     next_verb=""
             
