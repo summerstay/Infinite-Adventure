@@ -258,7 +258,7 @@ def interact_model(
 #   with tf.Session(config=config, graph=tf.Graph()) as sess:
     with tf.Session(graph=tf.Graph()) as sess:
         print("defgen")
-        def_gen = DescriptionGen(sess)
+        description_gen = DescriptionGen(sess)
         print("combatgen")
         combat_gen = CombatGen(sess) 
         print("getgen")
@@ -374,7 +374,7 @@ def interact_model(
                 description_generator = 'The following excerpt from a novel is a long and detailed description of the ' + input_atmosphere + ' things found in the ' + rooms[current_room] + ':\nYou were ' + input_persona + '. You were in the ' + rooms[current_room] + ' within the ' + input_location + '. Here is what you saw there:'
                 context_tokens = enc.encode(description_generator)
                 print("running description generator")
-                text = def_gen.generate(description_generator)
+                text = description_gen.generate(description_generator)
                 descriptions[current_room] = description_cleanup(text)
             if describe_flag == 1:
                 print("\n" + rooms[current_room] + "\n")
