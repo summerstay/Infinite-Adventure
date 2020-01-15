@@ -188,7 +188,7 @@ def interact_model(
         get_gen = GetGen(sess)
 
         
-        context = tf.placeholder(tf.int32, [batch_size, None])
+        #context = tf.placeholder(tf.int32, [batch_size, None])
         np.random.seed(seed)
         tf.set_random_seed(seed)
         print("***")
