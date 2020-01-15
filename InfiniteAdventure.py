@@ -253,7 +253,7 @@ def interact_model(
                 if generation_mode !="room description":
                     print('switching to room description generation mode...')
                     generation_mode="room description"
-                    output = switch_GPT_mode(1,350,30,context, hparams, temperature)
+                    output = switch_GPT_mode(1,175,30,context, hparams, temperature)
                 generated = 0 
                 for _ in range(nsamples // batch_size):
                     print("\n generating description... ")
@@ -420,11 +420,11 @@ def interact_model(
                     if generation_mode != "other verb":
                         generation_mode="other verb"
                         print("switching to 'other verb' mode...")
-                        output = switch_GPT_mode(1,210,30, context, hparams, temperature)                                              
+                        output = switch_GPT_mode(1,100,30, context, hparams, temperature)                                              
                     prompt = descriptions[current_room] + '\nYou ' + next_verb_past + " " + next_object
                     context_tokens = enc.encode(prompt)
-                    if len(context_tokens)>780:
-                        context_tokens = context_tokens[-780:]
+                    if len(context_tokens)>900:
+                        context_tokens = context_tokens[-900:]
                     generated=0
                     for _ in range(nsamples // batch_size):
                         print("generating response:")
