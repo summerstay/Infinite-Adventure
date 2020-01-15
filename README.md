@@ -1,3 +1,5 @@
+This is now available as a colab, thanks to Nick Walton: https://colab.research.google.com/drive/1JNI4o7eRZx98Ckf5nk7hnQsIsTCoZ3MI#scrollTo=fdo1Wdadtc2P
+
 # Infinite-Adventure
 My own take on something like AI Dungeon.
 
