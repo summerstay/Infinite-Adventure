@@ -270,9 +270,13 @@ def interact_model(
     config = tf.ConfigProto(intra_op_parallelism_threads=16, inter_op_parallelism_threads=2, allow_soft_placement=True, device_count={'CPU': 32})
 #   with tf.Session(config=config, graph=tf.Graph()) as sess:
     with tf.Session(graph=tf.Graph()) as sess:
+        print("defgen")
         def_gen = DescriptionGen(sess)
+        print("combatgen")
         combat_gen = CombatGen(sess) 
+        print("getgen")
         get_gen = GetGen(sess)
+        print("roomgen")
         room_gen =RoomGen(sess)
         
         context = tf.placeholder(tf.int32, [batch_size, None])
