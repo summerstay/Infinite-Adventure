@@ -98,7 +98,7 @@ class RoomGen():
     
         self.enc = encoder.get_encoder(model_path)
         hparams = model.default_hparams()
-        with open(os.path.join('models\\1558M', 'hparams.json')) as f:
+        with open(os.path.join('models/1558M', 'hparams.json')) as f:
             hparams.override_from_dict(json.load(f))  
 
         self.context = tf.placeholder(tf.int32, [batch_size, None])
@@ -111,7 +111,7 @@ class RoomGen():
         )
 
         saver = tf.train.Saver()
-        ckpt = tf.train.latest_checkpoint('models\\1558M')
+        ckpt = tf.train.latest_checkpoint('models/1558M')
         saver.restore(self.sess, ckpt)
             
         
@@ -137,7 +137,7 @@ class DescriptionGen():
     
         self.enc = encoder.get_encoder(model_path)
         hparams = model.default_hparams()
-        with open(os.path.join('models\\1558M', 'hparams.json')) as f:
+        with open(os.path.join('models/1558M', 'hparams.json')) as f:
             hparams.override_from_dict(json.load(f))  
 
         self.context = tf.placeholder(tf.int32, [batch_size, None])
@@ -150,7 +150,7 @@ class DescriptionGen():
         )
 
         saver = tf.train.Saver()
-        ckpt = tf.train.latest_checkpoint('models\\1558M')
+        ckpt = tf.train.latest_checkpoint('models/1558M')
         saver.restore(self.sess, ckpt)
             
         
@@ -176,7 +176,7 @@ class CombatGen():
     
         self.enc = encoder.get_encoder(model_path)
         hparams = model.default_hparams()
-        with open(os.path.join('models\\1558M', 'hparams.json')) as f:
+        with open(os.path.join('models/1558M', 'hparams.json')) as f:
             hparams.override_from_dict(json.load(f))  
 
         self.context = tf.placeholder(tf.int32, [batch_size, None])
@@ -189,7 +189,7 @@ class CombatGen():
         )
 
         saver = tf.train.Saver()
-        ckpt = tf.train.latest_checkpoint('models\\1558M')
+        ckpt = tf.train.latest_checkpoint('models/1558M')
         saver.restore(self.sess, ckpt)
             
         
@@ -213,7 +213,7 @@ class GetGen():
     
         self.enc = encoder.get_encoder(model_path)
         hparams = model.default_hparams()
-        with open(os.path.join('models\\1558M', 'hparams.json')) as f:
+        with open(os.path.join('models/1558M', 'hparams.json')) as f:
             hparams.override_from_dict(json.load(f))  
 
         self.context = tf.placeholder(tf.int32, [batch_size, None])
@@ -226,7 +226,7 @@ class GetGen():
         )
 
         saver = tf.train.Saver()
-        ckpt = tf.train.latest_checkpoint('models\\1558M')
+        ckpt = tf.train.latest_checkpoint('models/1558M')
         saver.restore(self.sess, ckpt)
             
         
