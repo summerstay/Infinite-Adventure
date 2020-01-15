@@ -73,19 +73,6 @@ def rooms_cleanup(
     rooms3 = list(filter(None, rooms3))
     return rooms3
 
-
-def switch_GPT_mode(
-        nsamples,length,top_k, context, hparams, temperature
-):
-    output = sample.sample_sequence(
-            hparams=hparams,
-            length=length,
-            context=context,
-            temperature=temperature,
-            top_k=top_k
-        )
-    return output 
-
 class RoomGen():
           
 
@@ -117,8 +104,8 @@ class RoomGen():
         
     def generate(self, prompt):
         context_tokens = self.enc.encode(prompt)
-        if len(context_tokens)>(1023-175):
-            context_tokens = context_tokens[-(1023-175):]
+        if len(context_tokens)>800:
+            context_tokens = context_tokens[-800:]
         out = self.sess.run(self.output, feed_dict={
                 self.context: [context_tokens for _ in range(1)]
             })[:, len(context_tokens):]
