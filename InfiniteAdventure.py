@@ -430,9 +430,9 @@ def interact_model(
                     generate_more_flag = 0                             
                     prompt = descriptions[current_room] + '\nYou ' + next_verb_past + " " + next_object
                     text=description_gen.generate(prompt)
-                    text=description_cleanup(text)
-                    print('\nYou ' + next_verb_past + " " + next_object + " " + text)
-                    descriptions[current_room] = prompt + " " + text + " "
+                    # text=description_cleanup(text)
+                    print('\nYou ' + next_verb_past + " " + next_object + text)
+                    descriptions[current_room] = prompt  + text 
                     next_verb=""
             
 ### this steps through all the rooms generating them            
