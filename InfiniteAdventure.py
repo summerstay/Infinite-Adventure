@@ -236,7 +236,7 @@ def interact_model(
                 filename=input("please check spelling >>> ")
                 if filename[-4:] != ".pkl":
                     filename = filename + ".pkl"
-            file = open("src/" + filename, errors='ignore')
+            file = open("src/" + filename, 'rb')
             data = pickle.load(file)
             descriptions=data[0]
             rooms=data[1] 
