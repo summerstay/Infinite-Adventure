@@ -95,7 +95,7 @@ def rooms_cleanup(
 
 class DescriptionGen():
 
-    def __init__(self, sess, length=175, temperature=0.9, top_k=30):
+    def __init__(self, sess, length=175, temperature=0.7, top_k=30):
     
         seed = None
         batch_size=1
@@ -135,7 +135,7 @@ class DescriptionGen():
 
 class GetGen():
 
-    def __init__(self, sess, length=10, temperature=0.9, top_k=1):
+    def __init__(self, sess, length=10, temperature=0.7, top_k=1):
     
         seed = None
         batch_size=1
