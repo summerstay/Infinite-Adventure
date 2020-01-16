@@ -273,7 +273,7 @@ def interact_model(
        
         else:
 ### start a new game without loading
-            precalculate = input("Would you like to pregenerate room descriptions? It takes about an hour upfront, but gameplay is faster. (Y or N) >>> ")
+            precalculate = input("Would you like to pregenerate room descriptions? It takes some time upfront, but gameplay is faster. (Y or N) >>> ")
             if precalculate in {"y","Y","yes"}:
                 interactive_flag = 0
             input_persona = input("Describe your character in a few words. You are >>> ")
@@ -459,6 +459,7 @@ def interact_model(
                 current_room=current_room + 1
                 if current_room > len(rooms)-1:
                     current_room = 0
+                    print("***** Pregeneration finished. Have fun! *****")
                     interactive_flag = 1
 
 
