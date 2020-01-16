@@ -50,7 +50,26 @@ def description_cleanup(
             paragraph = paragraph.lstrip('123456789.- )(')            
             titles_removed = titles_removed + paragraph + "\n"
     return titles_removed
-                
+
+def other_cleanup(
+        text=''
+):
+    # remove the final sentence fragment
+    text=".".join(text.split(".")[:-1])
+    text = text + '.'
+    # only keep what is before <|end of text|>
+    text2=text.split("<|endoftext|>")
+    text3=text2[0] 
+    #get rid of lines that don't end in a period (often a subtitle of some kind)
+    paragraphs=text3.split('\n')
+    titles_removed = ""
+    for paragraph in paragraphs:
+        if paragraph.endswith("."):           
+            titles_removed = titles_removed + paragraph + "\n"
+    return titles_removed
+
+
+
 def rooms_cleanup(
         text=''
 ):
@@ -430,7 +449,7 @@ def interact_model(
                     generate_more_flag = 0                             
                     prompt = descriptions[current_room] + '\nYou ' + next_verb_past + " " + next_object
                     text=description_gen.generate(prompt)
-                    # text=description_cleanup(text)
+                    text=other_cleanup(text)
                     print('\nYou ' + next_verb_past + " " + next_object + text)
                     descriptions[current_room] = prompt  + text 
                     next_verb=""
