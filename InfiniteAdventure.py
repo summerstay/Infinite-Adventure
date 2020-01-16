@@ -312,7 +312,8 @@ def interact_model(
             if "".__eq__(descriptions[current_room]):            
                 # print("\n" + rooms[current_room] + "\n")
                 #description_prompt = 'The following excerpt from a novel is a long and detailed description of the ' + input_atmosphere + ' things found in the ' + rooms[current_room] + ':\nYou are ' + input_persona + '. You are in the ' + rooms[current_room] + ' within the ' + input_location + '. Here is what you see there:'
-                description_prompt = 'The following excerpt from a novel is a long and detailed description of the ' + input_atmosphere + ' things found in the ' + rooms[current_room] + ':\nYou were ' + input_persona + '. You were in the ' + rooms[current_room] + ' within the ' + input_location + '. Here is what you saw there:'
+                #description_prompt = 'The following excerpt from a novel is a long and detailed description of the ' + input_atmosphere + ' things found in the ' + rooms[current_room] + ':\nYou were ' + input_persona + '. You were in the ' + rooms[current_room] + ' within the ' + input_location + '. Here is what you saw there:'
+               description_prompt = 'You were ' + input_persona + '. Previously, you were in a small stone room. Here is what you saw: There were two chairs and a small table. There was one small window and the floors were unswept. Later, you were in the ' + rooms[current_room] + ' of a ' + input_atmosphere + ' ' + input_location + '. Here is what you saw:'
                
                 print("running description generator")
                 text = description_gen.generate(description_prompt)
