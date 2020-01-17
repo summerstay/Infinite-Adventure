@@ -7,9 +7,9 @@ import numpy as np
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 try:
-    from tf.python.util import module_wrapper as deprecation
+    from tensorflow.python.util import module_wrapper as deprecation
 except ImportError:
-    from tf.python.util import deprecation_wrapper as deprecation
+    from tensorflow.python.util import deprecation_wrapper as deprecation
 deprecation._PER_MODULE_WARNING_LIMIT = 0
 import random
 import pickle
