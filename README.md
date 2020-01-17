@@ -16,7 +16,7 @@ python download_model.py 1558M
 All of the files for infinite-adventure go in the "src" subfolder of that project.
 The game can save game files to that directory, so make sure it has permissions to do so.
 The game has the following additional dependencies (besides GPT-2):
-json, os, random, pickle, (which all come with most versions of python 3) and numpy, fire, tensorflow 1.14, pyinflect (which you'll need to install).
+json, os, random, pickle, textwrap (which all come with most versions of python 3) and numpy, fire, tensorflow 1.14, pyinflect (which you'll need to install).
 You can install most of these using "pip install".
 
 Gameplay instructions:
