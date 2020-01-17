@@ -396,7 +396,7 @@ def interact_model(
                             descriptions[current_room] = descriptions[current_room] + "You picked up the " + next_object + ". "
                             inventory.add(next_object)
                             print("inventory: ")
-                            wrap_print(inventory)
+                            print(inventory)
                         elif answer[1] =="too":
                             print("that's too big to carry.")
                         else:
@@ -450,7 +450,7 @@ def interact_model(
                     
                 elif next_verb == "inventory": 
                     print("inventory:")
-                    wrap_print(inventory)
+                    print(inventory)
                     
                 elif next_verb == "quit":
                     raise SystemExit
