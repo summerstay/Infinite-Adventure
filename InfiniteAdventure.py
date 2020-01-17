@@ -13,7 +13,7 @@ import textwrap
 
 import model, sample, encoder
 
-def wrap_print(wrap_length=60, text=''):
+def wrap_print(text='', wrap_length=60 ):
     print(textwrap.fill(text, wrap_length))
 
 def create_graph(
