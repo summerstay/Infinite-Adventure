@@ -326,8 +326,8 @@ def interact_model(
                 descriptions[current_room] = description_cleanup(text)
             if describe_flag == 1:
                 print("\n" + rooms[current_room] + "\n")
-                wrap_print(descriptions[current_room] + "\n")
-                print("other nearby areas:", end = " ")
+                wrap_print(descriptions[current_room])
+                print("\n other nearby areas:", end = " ")
                 describe_flag = 0
                 for index in room_connections[current_room]:
                     print(rooms[index], end = " | ")
@@ -434,7 +434,8 @@ def interact_model(
                     weapon = input("with your (weapon from your inventory) >>> ")
                     if weapon in inventory.union({"fists", "fist", "knee", "foot", "elbow", "head", "forehead", "finger", "fingers", "teeth", "voice", "hands", "hand", "feet", "knees", "elbows"}):
                        prompt = fight_prompt + action + " with your " + weapon + "\nresult:"
-                       wrap_print("You " + action + " with your " + weapon + ".")
+                       wrapped = "You " + action + " with your " + weapon + "."
+                       wrap_print(wrapped)
                        text = description_gen.generate(prompt)
                        text=description_cleanup(text)
                        wrap_print(text)
@@ -457,7 +458,8 @@ def interact_model(
                     prompt = descriptions[current_room] + '\nYou ' + next_verb_past + " " + next_object
                     text=description_gen.generate(prompt)
                     text=other_cleanup(text)
-                    wrap_print('\nYou ' + next_verb_past + " " + next_object + text)
+                    wrapped = '\nYou ' + next_verb_past + " " + next_object + text
+                    wrap_print(wrapped)
                     descriptions[current_room] = prompt  + text 
                     next_verb=""
             
