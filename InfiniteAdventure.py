@@ -8,8 +8,12 @@ import tensorflow as tf
 import random
 import pickle
 from pyinflect import getInflection
+import textwrap
 
 import model, sample, encoder
+
+def wrap_print(wrap_length=60, text=''):
+    print(textwrap.fill(text, wrap_length))
 
 def create_graph(
         nodes=10,
@@ -300,9 +304,9 @@ def interact_model(
             #remove duplicates from the list of rooms
             set_rooms=set(rooms)
             rooms = list(set_rooms)
-            print(rooms)
+            wrap_print(rooms)
             room_connections=create_graph(len(rooms),len(rooms)*3)
-            print(room_connections)
+            wrap_print(room_connections)
             descriptions=[ '' for i in range(0,len(rooms)+1)]
 
         current_room = 0
@@ -322,7 +326,7 @@ def interact_model(
                 descriptions[current_room] = description_cleanup(text)
             if describe_flag == 1:
                 print("\n" + rooms[current_room] + "\n")
-                print(descriptions[current_room] + "\n")
+                wrap_print(descriptions[current_room] + "\n")
                 print("other nearby areas:", end = " ")
                 describe_flag = 0
                 for index in room_connections[current_room]:
@@ -371,7 +375,7 @@ def interact_model(
                             descriptions.append("")
                             describe_flag = 1
                         else:
-                            print("Sorry, I don't recognize that. Please choose a place using a word from the description.")
+                            wrap_print("Sorry, I don't recognize that. Please choose a place using a word from the description.")
     
                 elif next_verb in {"get","grab"}: 
                     if next_object in inventory:
@@ -386,13 +390,13 @@ def interact_model(
                             descriptions[current_room] = descriptions[current_room] + "You picked up the " + next_object + ". "
                             inventory.add(next_object)
                             print("inventory: ")
-                            print(inventory)
+                            wrap_print(inventory)
                         elif answer[1] =="too":
                             print("that's too big to carry.")
                         else:
                             print("I don't know how to do that.")
                     else:
-                        print("Sorry, I don't recognize that. Please choose an object to get using a word from the description.")
+                        wrap_print("Sorry, I don't recognize that. Please choose an object to get using a word from the description.")
     
                 elif next_verb == "save":
                     filename='src/' + input_location + '.pkl'
@@ -430,16 +434,16 @@ def interact_model(
                     weapon = input("with your (weapon from your inventory) >>> ")
                     if weapon in inventory.union({"fists", "fist", "knee", "foot", "elbow", "head", "forehead", "finger", "fingers", "teeth", "voice", "hands", "hand", "feet", "knees", "elbows"}):
                        prompt = fight_prompt + action + " with your " + weapon + "\nresult:"
-                       print("You " + action + " with your " + weapon + ".")
+                       wrap_print("You " + action + " with your " + weapon + ".")
                        text = description_gen.generate(prompt)
                        text=description_cleanup(text)
-                       print(text)
+                       wrap_print(text)
                     else:
                         print("You don't seem to have that weapon in your inventory.")
                     
                 elif next_verb == "inventory": 
                     print("inventory:")
-                    print(inventory)
+                    wrap_print(inventory)
                     
                 elif next_verb == "quit":
                     raise SystemExit
@@ -453,7 +457,7 @@ def interact_model(
                     prompt = descriptions[current_room] + '\nYou ' + next_verb_past + " " + next_object
                     text=description_gen.generate(prompt)
                     text=other_cleanup(text)
-                    print('\nYou ' + next_verb_past + " " + next_object + text)
+                    wrap_print('\nYou ' + next_verb_past + " " + next_object + text)
                     descriptions[current_room] = prompt  + text 
                     next_verb=""
             
@@ -468,4 +472,3 @@ def interact_model(
 
 if __name__ == '__main__':
     fire.Fire(interact_model)
-
