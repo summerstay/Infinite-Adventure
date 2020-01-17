@@ -14,7 +14,7 @@ import textwrap
 import model, sample, encoder
 
 def wrap_print(text='', wrap_length=60 ):
-    print(textwrap.fill(text, wrap_length))
+    print(textwrap.fill(text, width = wrap_length, break_long_words = False, replace_whitespace = False))
 
 def create_graph(
         nodes=10,
