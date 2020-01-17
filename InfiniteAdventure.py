@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-
+import logging
+logging.getLogger('tensorflow').disabled = True
 import fire
 import json
 import os
