@@ -542,15 +542,13 @@ def interact_model(
                                     break
                        else:
                            print("You don't seem to have that weapon in your inventory.")
-                           continue_fight = "n"
-
+                            
                 elif next_verb == "inventory": 
                     print("inventory:")
                     print(inventory)
                     
                 elif next_verb == "quit":
-                    raise SystemExit
-                    
+                    raise SystemExit                  
                 else:
                     generate_more_flag = 1
                 
@@ -570,7 +568,7 @@ def interact_model(
                 current_room=current_room + 1
                 if current_room > len(rooms)-1:
                     current_room = 0
-                    print("***** Pregeneration finished. Have fun! *****")
+                    print("\n\n\n\n***** Pregeneration finished. Have fun! *****\n\n\n\n")
                     interactive_flag = 1
 
 
