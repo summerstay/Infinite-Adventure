@@ -489,6 +489,7 @@ def interact_model(
                                 dies = {"dies","die","died"}
                                 for term in dies:
                                     if term in sentence:
+                                        continue_fight = "n"
                                         if damaged == 1:
                                             hp[2] = 0
                                         else:
@@ -511,7 +512,8 @@ def interact_model(
                                 if hp[2] < 1:
                                     print("YOU WERE KILLED (but we'll pretend you weren't so you can keep playing if you want)")
                                     break
-                           continue_fight = input("Continue fight? (y or n)")     
+                           if continue_fight == "y":
+                                continue_fight = input("Continue fight? (y or n)")     
                        else:
                            print("You don't seem to have that weapon in your inventory.")
                            continue_fight = "n"
