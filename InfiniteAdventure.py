@@ -452,6 +452,9 @@ def interact_model(
                        raw_action = input("action (e.g. stab) >>> ")
                        action_split = raw_action.split(" ", 1)
                        action = action_split[0]
+                       if action in {"quit","stop","surrender","hide","escape"}:
+                            continue_fight = "n"
+                            break
                        weapon = input("weapon >>> ")
                        if weapon in inventory.union({"fists", "fist", "knee", "foot", "elbow", "head", "forehead", "finger", "fingers", "teeth", "voice", "hands", "hand", "feet", "knees", "elbows"}):
                                               
