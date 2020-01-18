@@ -20,7 +20,10 @@ import textwrap
 import model, sample, encoder
 
 def wrap_print(text='', wrap_length=80 ):
-    print(textwrap.fill(text, width = wrap_length, break_long_words = False, replace_whitespace = False))
+    if isinstance(text, str): 
+        print(textwrap.fill(text, width = wrap_length, break_long_words = False, replace_whitespace = False))
+    else:
+        print(text)
 
 def create_graph(
         nodes=10,
@@ -311,9 +314,9 @@ def interact_model(
             #remove duplicates from the list of rooms
             set_rooms=set(rooms)
             rooms = list(set_rooms)
-            wrap_print(rooms)
+            print(rooms)
             room_connections=create_graph(len(rooms),len(rooms)*3)
-            wrap_print(room_connections)
+            print(room_connections)
             descriptions=[ '' for i in range(0,len(rooms)+1)]
 
         current_room = 0
