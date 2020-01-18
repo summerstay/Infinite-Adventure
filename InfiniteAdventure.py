@@ -480,6 +480,13 @@ def interact_model(
                             for term in kills:
                                 if term in sentence:
                                     hp[damaged] = 0
+                            dies = {"dies","die","died"}
+                            for term in dies:
+                                if term in sentence:
+                                    if damaged == 1:
+                                        hp[2] = 0
+                                    else:
+                                        hp[1] = 0
                             misses = {"escape","escaped","escapes","try", "tried", "tries", "miss", "missing", "missed", "misses", "dodge", "dodges", "dodged", "dodging", "block", "blocks", "blocked", "blocking", "save", "saved", "saving"}
                             for term in misses:
                                 if term in sentence:
