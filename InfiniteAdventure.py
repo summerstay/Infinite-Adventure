@@ -462,7 +462,7 @@ def interact_model(
                            text = start_sentence + text
                            sentences = text.split("\n")
                            paragraph_length = len(sentences)
-                           sentences = sentences[0:min(paragraph_length,4)]
+                           sentences = sentences[0:min(paragraph_length,3)]
                            for sentence in sentences:
                                 sentence=sentence.strip()
                                 if sentence == '':
@@ -489,6 +489,8 @@ def interact_model(
                                 for term in kills:
                                     if term in sentence:
                                         hp[damaged] = 0
+                                        continue_fight = "n"
+                                        break
                                 dies = {"dies","die","died"}
                                 for term in dies:
                                     if term in sentence:
@@ -497,6 +499,7 @@ def interact_model(
                                             hp[2] = 0
                                         else:
                                             hp[1] = 0
+                                        break
                                 misses = {"escape","escaped","escapes","try", "tried", "tries", "miss", "missing", "missed", "misses", "dodge", "dodges", "dodged", "dodging", "block", "blocks", "blocked", "blocking", "save", "saved", "saving"}
                                 for term in misses:
                                     if term in sentence:
@@ -512,9 +515,11 @@ def interact_model(
                                 if hp[1] < 1:
                                     print("ENEMY KILLED")
                                     continue_fight = "n"
+                                    break
                                 if hp[2] < 1:
                                     print("YOU WERE KILLED (but we'll pretend you weren't so you can keep playing if you want)")
                                     continue_fight = "n"
+                                    break
                            if continue_fight == "y":
                                 continue_fight = input("Continue fight? (y or n)")     
                        else:
