@@ -519,6 +519,7 @@ def interact_model(
                                 if hp[1] < 1:
                                     print("ENEMY KILLED")
                                     continue_fight = "n"
+                                    descriptions[current_room] = descriptions[current_room] + "\nThe corpse of " + enemy + " was lying on the ground.\n"
                                     break
                                 if hp[2] < 1:
                                     print("YOU WERE KILLED (but we'll pretend you weren't so you can keep playing if you want)")
