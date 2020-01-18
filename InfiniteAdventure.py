@@ -520,8 +520,6 @@ def interact_model(
                                     print("YOU WERE KILLED (but we'll pretend you weren't so you can keep playing if you want)")
                                     continue_fight = "n"
                                     break
-                           if continue_fight == "y":
-                                continue_fight = input("Continue fight? (y or n)")     
                        else:
                            print("You don't seem to have that weapon in your inventory.")
                            continue_fight = "n"
