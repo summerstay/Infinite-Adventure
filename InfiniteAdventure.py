@@ -465,7 +465,7 @@ def interact_model(
                             continue_fight = "n"
                             break
                        new_weapon = input("weapon (or press enter to use the same weapon) >>> ")
-                       if new_weapon = '':
+                       if new_weapon == '':
                             pass
                         else:
                             weapon = new_weapon
