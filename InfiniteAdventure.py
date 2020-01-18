@@ -468,8 +468,12 @@ def interact_model(
                        if new_weapon = '':
                             pass
                         else:
-                            weapon = new_weapon             
-                       if weapon in inventory.union({"fists", "fist", "knee", "foot", "elbow", "head", "forehead", "finger", "fingers", "teeth", "voice", "hands", "hand", "feet", "knees", "elbows"}):
+                            weapon = new_weapon
+                       possible_weapons = inventory.union({"fists", "fist", "knee", "foot", "elbow", "head", "forehead", "finger", "fingers", "teeth", "voice", "hands", "hand", "feet", "knees", "elbows"})
+                       for possible in possible_weapons:
+                            if weapon.starts_with possible:
+                                weapon = possible
+                       if weapon in possible_weapons:
                            start_sentence = "You " + action + " " + enemy + " with your " + weapon                    
                            prompt = "You are " + input_persona + ". Your adversary, " + enemy + ", faced off agaist you. You attacked with a mighty stroke, slicing " + enemy + "'s arm.\n" + enemy + " fought back, wounding your shoulder.\n You pressed your attack, wounding " + enemy + "'s leg.\n" + enemy + " tried again, but missed.\nYou pressed forward and took a mighty swing, but " + enemy + " escaped.\n" + enemy + " charged, dealing a heavy wound.\nYou managed to deal a nearly fatal blow, almost killing " + enemy + ".\n" + enemy + " let loose an onslaught, lightly wounding your arm.\nYou struck, but " + enemy + " got away unscathed.\n" + enemy + " retaliated with a barrage, doing heavy damage.\nYou fought back, rushing " + enemy + " and knocking " + enemy + " to the ground.\nYou rallied and caught " + enemy + " offguard.\n" + enemy + " blocked and returned the attack with a vicious strike.\nYou managed to get past " + enemy + "'s defenses and dealt a wound.\n" + enemy + " lunged, but missed by a mile.\nYou feinted to the left and struck to the right, but missed doing any damage.\n" + enemy + " knocked you off your feet with a heavy blow.\nYou fired away, successfully penetrating " + enemy + "'s defense.\n" + start_sentence
                            text = description_gen.generate(prompt)
