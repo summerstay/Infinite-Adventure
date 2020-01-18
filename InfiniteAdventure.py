@@ -450,9 +450,11 @@ def interact_model(
                     if weapon in inventory.union({"fists", "fist", "knee", "foot", "elbow", "head", "forehead", "finger", "fingers", "teeth", "voice", "hands", "hand", "feet", "knees", "elbows"}):
                        continue_fight = "y"
                        while continue_fight == "y":
-                           print( "You " + action + " with your " + weapon , end = '')
+                           start_sentence = "You " + action + " with your " + weapon 
+                           print( start_sentence, end = '')
                            text = description_gen.generate(prompt)
                            text=description_cleanup(text)
+                           text = start_sentence + text
                            sentences = text.split("\n")
                            paragraph_length = len(sentences)
                            sentences = sentences[0:min(paragraph_length,4)]
