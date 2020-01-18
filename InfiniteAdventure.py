@@ -452,6 +452,8 @@ def interact_model(
                        text = description_gen.generate(prompt)
                        text=description_cleanup(text)
                        sentences = text.split("\n")
+                       paragraph_length = len(sentences)
+                       sentences = sentences[0:min(paragraph_length,4)]
                        for sentence in sentences:
                             sentence=sentence.strip()
                             if sentence == '':
