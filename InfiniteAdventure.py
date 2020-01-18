@@ -467,7 +467,7 @@ def interact_model(
                        new_weapon = input("weapon (or press enter to use the same weapon) >>> ")
                        if new_weapon == '':
                             pass
-                        else:
+                       else:
                             weapon = new_weapon
                        possible_weapons = inventory.union({"fists", "fist", "knee", "foot", "elbow", "head", "forehead", "finger", "fingers", "teeth", "voice", "hands", "hand", "feet", "knees", "elbows"})
                        for possible in possible_weapons:
