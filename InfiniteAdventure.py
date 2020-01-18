@@ -448,7 +448,7 @@ def interact_model(
                    
                     if weapon in inventory.union({"fists", "fist", "knee", "foot", "elbow", "head", "forehead", "finger", "fingers", "teeth", "voice", "hands", "hand", "feet", "knees", "elbows"}):
   
-                       print( "You " + action + " with your " + weapon + ".")
+                       print( "You " + action + " with your " + weapon , end = '')
                        text = description_gen.generate(prompt)
                        text=description_cleanup(text)
                        sentences = text.split("\n")
