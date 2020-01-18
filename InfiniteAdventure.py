@@ -442,16 +442,19 @@ def interact_model(
                     #check if the enemy is in the description
                     #load the fight module
                     hp=[0,10,10]
-                    
-                    continue_fight = "y"
+                    enemy = input("opponent >>>")
+                    if enemy in descriptions[current_room]:
+                        continue_fight = "y"
+                    else:
+                        continue_fight = "n"
+                        print("That opponent doesn't appear in the room description.")
                     while continue_fight == "y":
-                       action = input("action (e.g. stab the bear) >>> ")
+                       raw_action = input("action (e.g. stab) >>> ")
+                       action_split = raw_action.split(" ", 1)
+                       action = action_split[0]
                        weapon = input("weapon from your inventory (or fists, etc...) >>> ")
                        if weapon in inventory.union({"fists", "fist", "knee", "foot", "elbow", "head", "forehead", "finger", "fingers", "teeth", "voice", "hands", "hand", "feet", "knees", "elbows"}):
-                           action_split = action.split(" ", 1)                    
-                           enemy = 'the enemy'
-                           if len(action_split)>1:
-                                enemy = action_split[1]
+                                              
                            prompt = "You are " + input_persona + ". Your adversary, " + enemy + ", faced off agaist you. You attacked with a mighty stroke, slicing " + enemy + "'s arm.\n" + enemy + " fought back, wounding your shoulder.\n You pressed your attack, wounding " + enemy + "'s leg.\n" + enemy + " tried again, but missed.\nYou pressed forward and took a mighty swing, but " + enemy + " escaped.\n" + enemy + " charged, dealing a heavy wound.\nYou managed to deal a nearly fatal blow, almost killing " + enemy + ".\n" + enemy + " let loose an onslaught, lightly wounding your arm.\nYou struck, but " + enemy + " got away unscathed.\n" + enemy + " retaliated with a barrage, doing heavy damage.\nYou fought back, rushing " + enemy + " and knocking " + enemy + " to the ground.\nYou rallied and caught " + enemy + " offguard.\n" + enemy + " blocked and returned the attack with a vicious strike.\nYou managed to get past " + enemy + "'s defenses and dealt a wound.\n" + enemy + " lunged, but missed by a mile.\nYou feinted to the left and struck to the right, but missed doing any damage.\n" + enemy + " knocked you off your feet with a heavy blow.\nYou fired away, successfully penetrating " + enemy + "'s defense.\nYou " + action + " with your " + weapon
                            start_sentence = "You " + action + " with your " + weapon 
                            text = description_gen.generate(prompt)
@@ -508,10 +511,10 @@ def interact_model(
 
                                 if hp[1] < 1:
                                     print("ENEMY KILLED")
-                                    break
+                                    continue_fight = "n"
                                 if hp[2] < 1:
                                     print("YOU WERE KILLED (but we'll pretend you weren't so you can keep playing if you want)")
-                                    break
+                                    continue_fight = "n"
                            if continue_fight == "y":
                                 continue_fight = input("Continue fight? (y or n)")     
                        else:
