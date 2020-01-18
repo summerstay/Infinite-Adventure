@@ -453,10 +453,13 @@ def interact_model(
                        action_split = raw_action.split(" ", 1)
                        action_present = action_split[0]
                        action = getInflection(action_present, tag='VBD')
-                       if action[0] is None:
+                       if action is None:
                             action = "hit"
                        else:
-                            action = action[0]
+                            if action[0] is None:
+                                action = "hit"
+                            else:
+                                action = action[0]
                        if action in {"quit","stop","surrender","hide","escape"}:
                             continue_fight = "n"
                             break
