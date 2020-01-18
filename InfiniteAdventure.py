@@ -451,15 +451,15 @@ def interact_model(
                     while continue_fight == "y":
                        raw_action = input("action (e.g. stab) >>> ")
                        action_split = raw_action.split(" ", 1)
-                       action = action_split[0]
+                       action_present = action_split[0]
+                       action = getInflection(action_present, tag='VBD')
                        if action in {"quit","stop","surrender","hide","escape"}:
                             continue_fight = "n"
                             break
                        weapon = input("weapon >>> ")
                        if weapon in inventory.union({"fists", "fist", "knee", "foot", "elbow", "head", "forehead", "finger", "fingers", "teeth", "voice", "hands", "hand", "feet", "knees", "elbows"}):
-                                              
-                           prompt = "You are " + input_persona + ". Your adversary, " + enemy + ", faced off agaist you. You attacked with a mighty stroke, slicing " + enemy + "'s arm.\n" + enemy + " fought back, wounding your shoulder.\n You pressed your attack, wounding " + enemy + "'s leg.\n" + enemy + " tried again, but missed.\nYou pressed forward and took a mighty swing, but " + enemy + " escaped.\n" + enemy + " charged, dealing a heavy wound.\nYou managed to deal a nearly fatal blow, almost killing " + enemy + ".\n" + enemy + " let loose an onslaught, lightly wounding your arm.\nYou struck, but " + enemy + " got away unscathed.\n" + enemy + " retaliated with a barrage, doing heavy damage.\nYou fought back, rushing " + enemy + " and knocking " + enemy + " to the ground.\nYou rallied and caught " + enemy + " offguard.\n" + enemy + " blocked and returned the attack with a vicious strike.\nYou managed to get past " + enemy + "'s defenses and dealt a wound.\n" + enemy + " lunged, but missed by a mile.\nYou feinted to the left and struck to the right, but missed doing any damage.\n" + enemy + " knocked you off your feet with a heavy blow.\nYou fired away, successfully penetrating " + enemy + "'s defense.\nYou " + action + " with your " + weapon
-                           start_sentence = "You " + action + " with your " + weapon 
+                           start_sentence = "You " + action + " " + enemy + " with your " + weapon                    
+                           prompt = "You are " + input_persona + ". Your adversary, " + enemy + ", faced off agaist you. You attacked with a mighty stroke, slicing " + enemy + "'s arm.\n" + enemy + " fought back, wounding your shoulder.\n You pressed your attack, wounding " + enemy + "'s leg.\n" + enemy + " tried again, but missed.\nYou pressed forward and took a mighty swing, but " + enemy + " escaped.\n" + enemy + " charged, dealing a heavy wound.\nYou managed to deal a nearly fatal blow, almost killing " + enemy + ".\n" + enemy + " let loose an onslaught, lightly wounding your arm.\nYou struck, but " + enemy + " got away unscathed.\n" + enemy + " retaliated with a barrage, doing heavy damage.\nYou fought back, rushing " + enemy + " and knocking " + enemy + " to the ground.\nYou rallied and caught " + enemy + " offguard.\n" + enemy + " blocked and returned the attack with a vicious strike.\nYou managed to get past " + enemy + "'s defenses and dealt a wound.\n" + enemy + " lunged, but missed by a mile.\nYou feinted to the left and struck to the right, but missed doing any damage.\n" + enemy + " knocked you off your feet with a heavy blow.\nYou fired away, successfully penetrating " + enemy + "'s defense.\n" + start_sentence
                            text = description_gen.generate(prompt)
                            text=other_cleanup(text)
                            text = start_sentence + text
