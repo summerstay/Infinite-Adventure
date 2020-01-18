@@ -488,7 +488,7 @@ def interact_model(
                                     else:
                                         damaged = 2
                                 damage_flag=1
-                                kills = {"kill","kills","killed","slay","slayed", "slays"}
+                                kills = {"kills","killed","slay","slayed", "slays"}
                                 for term in kills:
                                     if term in sentence:
                                         hp[damaged] = 0
