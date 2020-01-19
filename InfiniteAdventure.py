@@ -500,7 +500,7 @@ def interact_model(
                                         damaged=1
                                     # if the word "you" occurs somewhere else in the sentence, the player is the one damaged
                                     else:
-                                        if yous in sentence:
+                                        if term in sentence:
                                             damaged = 2
                                 wases = {'was','were'}
                                 swapflag = 0
