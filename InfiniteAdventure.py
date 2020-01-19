@@ -530,9 +530,9 @@ def interact_model(
                                             you_die = {"you die", "you are killed", "you are slain", "you are dead", "You die", "You are killed", "You are slain", "You are dead"}
                                             for term in you_die:
                                                 if term in sentence:
-                                                    hp[2] = 1
+                                                    hp[2] = 0
                                         else:
-                                            hp[1] = 1
+                                            hp[1] = 0
                                             continue_fight = "n"
                                         break
                                 #if a miss is mentioned, assume no damage was done
