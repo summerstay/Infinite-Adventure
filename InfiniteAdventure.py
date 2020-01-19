@@ -471,7 +471,7 @@ def interact_model(
                             weapon = new_weapon
                        possible_weapons = inventory.union({"fists", "fist", "knee", "foot", "elbow", "head", "forehead", "finger", "fingers", "teeth", "voice", "hands", "hand", "feet", "knees", "elbows"})
                        for possible in possible_weapons:
-                            if possible.ends_with(weapon):
+                            if possible.endswith(weapon):
                                 weapon = possible
                        if weapon in possible_weapons:
                            start_sentence = "You " + action + " " + enemy + " with your " + weapon                    
