@@ -440,7 +440,6 @@ def interact_model(
                 elif next_verb in {"fight", "punch", "stab", "attack", "kill"}:
                     
                     #check if the enemy is in the description
-                    #load the fight module
                     hp=[0,10,10]
                     enemy = input("opponent >>>")
                     if enemy in descriptions[current_room]:
@@ -448,8 +447,10 @@ def interact_model(
                     else:
                         continue_fight = "n"
                         print("That opponent doesn't appear in the room description.")
+                   #start the "continue fight" loop
                     weapon = 'fists'
                     while continue_fight == "y":
+                       #get the action
                        raw_action = input("action (e.g. stab) >>> ")
                        action_split = raw_action.split(" ", 1)
                        action_present = action_split[0]
@@ -464,6 +465,7 @@ def interact_model(
                        if action in {"quit","stop","surrender","hide","escape"}:
                             continue_fight = "n"
                             break
+                       #get the weapon and check it is in inventory
                        new_weapon = input("weapon (or press enter to use the same weapon) >>> ")
                        if new_weapon == '':
                             pass
@@ -474,6 +476,7 @@ def interact_model(
                             if possible.endswith(weapon):
                                 weapon = possible
                        if weapon in possible_weapons:
+                           #generate response
                            start_sentence = "You " + action + " " + enemy + " with your " + weapon                    
                            prompt = "You are " + input_persona + ". Your adversary, " + enemy + ", faced off agaist you. You attacked with a mighty stroke, slicing " + enemy + "'s arm.\n" + enemy + " fought back, wounding your shoulder.\n You pressed your attack, wounding " + enemy + "'s leg.\n" + enemy + " tried again, but missed.\nYou pressed forward and took a mighty swing, but " + enemy + " escaped.\n" + enemy + " charged, dealing a heavy wound.\nYou managed to deal a nearly fatal blow, almost killing " + enemy + ".\n" + enemy + " let loose an onslaught, lightly wounding your arm.\nYou struck, but " + enemy + " got away unscathed.\n" + enemy + " retaliated with a barrage, doing heavy damage.\nYou fought back, rushing " + enemy + " and knocking " + enemy + " to the ground.\nYou rallied and caught " + enemy + " offguard.\n" + enemy + " blocked and returned the attack with a vicious strike.\nYou managed to get past " + enemy + "'s defenses and dealt a wound.\n" + enemy + " lunged, but missed by a mile.\nYou feinted to the left and struck to the right, but missed doing any damage.\n" + enemy + " knocked you off your feet with a heavy blow.\nYou fired away, successfully penetrating " + enemy + "'s defense.\n" + start_sentence
                            text = description_gen.generate(prompt)
@@ -486,16 +489,22 @@ def interact_model(
                                 sentence=sentence.strip()
                                 if sentence == '':
                                     sentences.remove(sentence)
+                           # parse the response
                            for sentence in sentences:
-
-                                youstarts = {'You', 'you'}
-                                damaged=2
-                                for term in youstarts:
+                                #default is that no one is damaged 
+                                damaged=0
+                                # if the sentence starts with "you", then the enemy is the one damaged
+                                yous = {'You', 'you'}                                
+                                for term in yous:
                                     if sentence.startswith(term):
                                         damaged=1
-                                wasstarts = {'was','were'}
+                                    # if the word "you" occurs somewhere else in the sentence, the player is the one damaged
+                                    else if yous in sentence:
+                                        damaged = 2
+                                wases = {'was','were'}
                                 swapflag = 0
-                                for term in wasstarts:
+                                # if the sentence is a passive sentence, then who is damaged gets swapped
+                                for term in wases:
                                     if term in sentence:
                                         swapflag = 1
                                 if swapflag == 1:
@@ -503,13 +512,15 @@ def interact_model(
                                         damaged = 1
                                     else:
                                         damaged = 2
-                                damage_flag=1
+                                # damage_flag=1
+                                # if someone is killed, the damage brings hitpoints to zero
                                 kills = {"kills","killed","slay","slayed", "slays"}
                                 for term in kills:
                                     if term in sentence:
                                         hp[damaged] = 0
                                         continue_fight = "n"
                                         break
+                                #this is awkward but the player should only die if it directly says "you die."
                                 dies = {"dies","die","died"}
                                 for term in dies:
                                     if term in sentence:
@@ -518,16 +529,18 @@ def interact_model(
                                             you_die = {"you die", "you are killed", "you are slain", "you are dead", "You die", "You are killed", "You are slain", "You are dead"}
                                             for term in you_die:
                                                 if term in sentence:
-                                                    hp[2] = 0
+                                                    hp[2] = 1
                                         else:
-                                            hp[1] = 0
+                                            hp[1] = 1
                                             continue_fight = "n"
                                         break
+                                #if a miss is mentioned, assume no damage was done
                                 misses = {"escape","escaped","escapes","try", "tried", "tries", "miss", "missing", "missed", "misses", "dodge", "dodges", "dodged", "dodging", "block", "blocks", "blocked", "blocking", "save", "saved", "saving"}
                                 for term in misses:
                                     if term in sentence:
-                                        damage_flag=0
-                                if damage_flag == 1:        
+                                        damaged = 0
+                                #if the player or enemy are damaged, subtract one from their hitpoints
+                                if damaged in {1,2}:        
                                     hp[damaged]=hp[damaged]-1
                                 print(sentence)
                                 print("enemy hp:", end=" ")
