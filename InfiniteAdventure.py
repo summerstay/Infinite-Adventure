@@ -536,13 +536,17 @@ def interact_model(
                                     if term in sentence:
                                         hp[damaged] = 0
                                         continue_fight = "n"
-                                        break
                                 you_die = {"you die", "you are killed", "you are slain", "you are dead", "You die", "You are killed", "You are slain", "You are dead"}
                                 for term in you_die:
                                     if term in sentence:
                                         hp[2] = 0
                                         continue_fight = "n"
-                                        break
+                                dies = {"dies", "died", "die"}
+                                for term in dies:
+                                    if term in sentence:
+                                        if hp[2] > 0:
+                                            hp[1] = 0
+                                            continue_fight = "n"  
                                 #if a miss is mentioned, assume no damage was done
                                 misses = {"escape","escaped","escapes","try", "tried", "tries", "miss", "missing", "missed", "misses", "dodge", "dodges", "dodged", "dodging", "block", "blocks", "blocked", "blocking", "save", "saved", "saving"}
                                 for term in misses:
