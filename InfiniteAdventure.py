@@ -413,7 +413,7 @@ def interact_model(
                     afile.close()
                     print("\n saved game.")
                     
-                elif next_verb == "items":
+                elif next_verb == "observe":
                     items = []
                     for _ in range(4 // batch_size):
                         text = description_gen.generate(items_prompt + "\n" + rooms[current_room] + ":")
