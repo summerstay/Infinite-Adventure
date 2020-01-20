@@ -513,10 +513,11 @@ def interact_model(
                                 for term in yous:
                                     if sentence.startswith(term):
                                         damaged=1
+                                for term in yous:
                                     # if the word "you" occurs somewhere else in the sentence, the player is the one damaged
-                                    else:
                                         if term in sentence:
-                                            damaged = 2
+                                            if damaged == 0:
+                                                damaged = 2
                                 wases = {'was','were'}
                                 swapflag = 0
                                 # if the sentence is a passive sentence, then who is damaged gets swapped
