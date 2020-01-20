@@ -82,8 +82,6 @@ def other_cleanup(
             titles_removed = titles_removed + paragraph + "\n"
     return titles_removed
 
-
-
 def rooms_cleanup(
         text=''
 ):
@@ -105,7 +103,6 @@ def rooms_cleanup(
     rooms3=list(fixed_array)
     rooms3 = list(filter(None, rooms3))
     return rooms3
-
 
 class DescriptionGen():
 
@@ -208,9 +205,9 @@ def interact_model(
     f=open("src/carrying.txt", "r", errors='ignore')
     if f.mode == 'r':
         carrying_prompt =f.read()
-    #f=open("src/combat.txt", "r", errors='ignore')
-    #if f.mode == 'r':
-    #    fight_prompt =f.read()
+    f=open("src/items.txt", "r", errors='ignore')
+    if f.mode == 'r':
+        items_prompt =f.read()
     
     config = tf.ConfigProto(intra_op_parallelism_threads=16, inter_op_parallelism_threads=2, allow_soft_placement=True, device_count={'CPU': 32})
 #   with tf.Session(config=config, graph=tf.Graph()) as sess:
@@ -415,11 +412,25 @@ def interact_model(
                     pickle.dump(pickle_file, afile)
                     afile.close()
                     print("\n saved game.")
+                    
+                elif next_verb == "items":
+                    items = []
+                    for _ in range(4 // batch_size):
+                        text = description_gen.generate(items_prompt)
+                        items = items + rooms_cleanup(text)           
+                    #remove duplicates from the list of items
+                    set_items=set(items)
+                    items = list(items)
+                    comma_separated = ','.join(items) 
+                    outtext = "The following objects are in the room:" + comma_separated
+                    print(outtext)
+                    descriptions[current_room] = descriptions[current_room] + outtext
     
                 elif next_verb == "regenerate":
                     descriptions[current_room]=''
                     print("\n regenerating room description...")
                     describe_flag = 1
+                    
                 elif next_verb == "drop":
                     if next_object in inventory:
                         print("You drop the " + next_object + ".")
