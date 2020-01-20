@@ -21,7 +21,7 @@ import model, sample, encoder
 
 def wrap_print(body='', wrap_length=80 ):
     if isinstance(body, str): 
-        body = '\n'.join(['\n'.join(textwrap.wrap(line, wrap_length, break_long_words=False, replace_whitespace=False)) for line in body.splitlines() if line.strip() != '']))
+        body = '\n'.join(['\n'.join(textwrap.wrap(line, wrap_length, break_long_words=False, replace_whitespace=False)) for line in body.splitlines() if line.strip() != ''])
         print(body)
     else:
         print(body)
