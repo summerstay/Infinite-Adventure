@@ -419,7 +419,7 @@ def interact_model(
                     print("generating list of some objects found in this room...")
                     items = []
                     for _ in range(3 // batch_size):
-                        text = description_gen.generate(items_prompt + "\n" + rooms[current_room] + ": ")
+                        text = description_gen.generate(items_prompt + "\n" + rooms[current_room] + "of" + input_location + ": ")
                         items = items + rooms_cleanup(text)           
                     #remove duplicates from the list of items
                     set_items=set(items)
