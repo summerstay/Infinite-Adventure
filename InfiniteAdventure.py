@@ -423,7 +423,7 @@ def interact_model(
                     set_items=set(items)
                     items = list(items)
                     comma_separated = ', '.join(items) 
-                    outtext = "The following objects are in the room:" + comma_separated
+                    outtext = "\nThe following objects are also in the room:" + comma_separated
                     wrap_print(outtext)
                     descriptions[current_room] = descriptions[current_room] + outtext
     
