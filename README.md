@@ -29,10 +29,12 @@ Gameplay instructions:
  * use OBJECT -- will only work with items in your inventory.
 
  * drop OBJECT -- drops an object from your inventory.
+ 
+ * observe -- shows a list of items in the room. Useful if you want to pick something up not explicitly in the description.
 
  * inventory -- prints your inventory.
 
- * fight OPPONENT -- asks what you want to do and what weapon from your inventory (or fists, foot, etc...) you want to use.
+ * fight -- asks opponent, what you want to do and what weapon from your inventory (or fists, foot, etc...) you want to use.
 
  * save -- saves the game.
 
