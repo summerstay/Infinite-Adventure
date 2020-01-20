@@ -420,13 +420,13 @@ def interact_model(
                     print("generating list of some objects found in this room...")
                     items = []
                     for _ in range(3 // batch_size):
-                        text = description_gen.generate(items_prompt + "\n" + rooms[current_room] + "of" + input_location + ": ")
+                        text = description_gen.generate(items_prompt + "\n" + rooms[current_room] + "of" + input_location + ":")
                         items = items + rooms_cleanup(text)           
                     #remove duplicates from the list of items
                     set_items=set(items)
                     items = list(items)
                     comma_separated = ', '.join(items) 
-                    outtext = "\nThe following objects are also in the room:" + comma_separated
+                    outtext = "\nThe following objects are also in the room: " + comma_separated
                     wrap_print(outtext)
                     descriptions[current_room] = descriptions[current_room] + outtext
     
