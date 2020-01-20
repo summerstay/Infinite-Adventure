@@ -1,0 +1,29 @@
+kitchen: stove, sink, food, oven, cooking supplies, pots, pans, cups, dishes
+library: books, atlas, maps, magazines, bookshelves, desk, tables, chairs
+forest: trees, animals, ferns, fruit, path, birds, plants, dragonflies
+dining room: table, chairs, plates, cups, dishes, utensils, placemats, tablecloth
+classroom: blackboard, desks, chairs, books, windows, textbooks, windows
+bathroom: toilet, sink, soap, shampoo, shower, bath, towels
+dungeon: chains, skeleton, rags, stones, rats
+server room: computers, cables, wires, monitor, fans
+cavern: stalactites, crystals, stream, bats, stones, insects
+street: buildings, homes, businesses, crowds, sidewalk, vehicles, signs
+orphanage: children, beds, chairs, toys, books, dressers, clothes
+grocery store: shelves, produce, eggs, vegetables, carts, checkout
+volcano: caves, molten lava, rocks, pumice, steam, gasses
+laundry: dry clothes, sheets, towels, tub, washer, dryer
+tavern: chairs, tables, mugs, ale, patrons, bar, barkeep, waitress, plates
+printing house: printers, inkwell, press, papers, desk, type trays
+starship bridge: computers, captain's chair, screen, robot, door
+vessel dock: tugs, sails, ropes, docks, ocean, ships, waves
+superintendent's office: seating, desk, filing cabinets, computer, framed certificates
+firetruck: hoses, hardware, pumps, firefighter's helmet, uniform, first aid kit
+post office: mailboxes, mail, packages, safety deposit boxes, clerk, desk, tape, envelopes, pen
+crematorium: corpses, furnace, ashes, urns, gravestones, bench, carpet
+prison: cells, beds, bars, chairs, doors, bars, tiny barred window
+museum: relic, robot, machine, train, cases, statues, paintings, exhibits, showcases, guard
+church: rosaries, holy water, pews, altar, icon, stained-glass windows
+hospital room: beds, pills, medical equipment
+airplane hanger: airplanes, parts, tools, equipment
+cavalry base: barracks, barracks building, mess hall,  galley, kitchen, training area, stables, armory, gunnery school, drill yard,  powder magazines, arsenal
+cathedral: transept, vestry, pulpit, cell, choir, choir loft, choir stalls, loft, nave,  chancel, sacristy, sanctuary, vault, apse, chapel, presbytery, sanctum, crypt, vestibule, turret, belfry, spire
