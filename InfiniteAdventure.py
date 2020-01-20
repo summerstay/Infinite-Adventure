@@ -416,7 +416,7 @@ def interact_model(
                 elif next_verb == "items":
                     items = []
                     for _ in range(4 // batch_size):
-                        text = description_gen.generate(items_prompt)
+                        text = description_gen.generate(items_prompt + "\n" + rooms[current_room] + ":")
                         items = items + rooms_cleanup(text)           
                     #remove duplicates from the list of items
                     set_items=set(items)
