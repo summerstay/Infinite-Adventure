@@ -414,16 +414,17 @@ def interact_model(
                     print("\n saved game.")
                     
                 elif next_verb == "observe":
+                    print("generating list of some objects found in this room...")
                     items = []
-                    for _ in range(4 // batch_size):
+                    for _ in range(3 // batch_size):
                         text = description_gen.generate(items_prompt + "\n" + rooms[current_room] + ":")
                         items = items + rooms_cleanup(text)           
                     #remove duplicates from the list of items
                     set_items=set(items)
                     items = list(items)
-                    comma_separated = ','.join(items) 
+                    comma_separated = ', '.join(items) 
                     outtext = "The following objects are in the room:" + comma_separated
-                    print(outtext)
+                    wrap_print(outtext)
                     descriptions[current_room] = descriptions[current_room] + outtext
     
                 elif next_verb == "regenerate":
