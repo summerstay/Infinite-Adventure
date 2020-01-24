@@ -1,0 +1,27 @@
+person: animate
+thing: inanimate
+plant: inanimate
+girl: animate
+frog: animate
+chair: inanimate
+corpse: inanimate
+dancing toy: animate
+robot: animate
+house: inanimate
+Brave Little Toaster: animate
+grass: inanimate
+George: animate
+The U.S.: inanimate
+movie: inanimate
+fork: inanimate
+cereal: inanimate
+ghost: animate
+zombie: animate
+dinosaur: animate
+snowflake: inanimate
+clam: animate
+butterfly: animate
+cricket: animate
+lion sculpture: inanimate
+
+
