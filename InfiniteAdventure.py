@@ -468,11 +468,9 @@ def interact_model(
                     if continue_fight == "y":
                         is_animate = animate_prompt + "\n" + enemy + ":"
                         text = get_gen.generate(is_animate)
-                        print(text)
                         animate_split = text.split("\n",1)
-                        print(animate_split[0])
                         if animate_split[0] == " inanimate":
-                            print("The " + enemy + " just sits there.\n")
+                            print("The " + enemy + " just sit/s there.\n")
                             continue_fight = "n"
                         
                    #start the "continue fight" loop
