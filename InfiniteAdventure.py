@@ -469,7 +469,7 @@ def interact_model(
                         is_animate = animate_prompt + "\n" + enemy + ":"
                         text = GetGen.generate(is_animate)
                         animate_split = text.split("\n",1)
-                        if animate_split[0] == "inanimate"
+                        if animate_split[0] == "inanimate":
                             print("The " + enemy + " just sits there.\n")
                             continue_fight = "n"
                         
