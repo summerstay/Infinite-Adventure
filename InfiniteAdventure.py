@@ -209,6 +209,9 @@ def interact_model(
     f=open("src/items.txt", "r", errors='ignore')
     if f.mode == 'r':
         items_prompt =f.read()
+    f=open("src/items.txt", "r", errors='ignore')
+    if f.mode == 'r':
+        animate_prompt =f.read()
     
     config = tf.ConfigProto(intra_op_parallelism_threads=16, inter_op_parallelism_threads=2, allow_soft_placement=True, device_count={'CPU': 32})
 #   with tf.Session(config=config, graph=tf.Graph()) as sess:
@@ -356,7 +359,7 @@ def interact_model(
                 next_command = input("\n >>>")
                 next_command_split = next_command.split(" ", 1)
                 next_verb = next_command_split[0]
-                next_object = 'dsfsdfdsf'
+                next_object = 'none'
                 if len(next_command_split)>1:
                     next_object = next_command_split[1]
                 next_verb_past = getInflection(next_verb.strip(",.:-"), tag='VBD')
@@ -462,6 +465,14 @@ def interact_model(
                     else:
                         continue_fight = "n"
                         print("That opponent doesn't appear in the room description.")
+                   if continue_fight == "y":
+                        is_animate = animate_prompt + "\n" + enemy + ":"
+                        text = GetGen.generate(is_animate)
+                        animate_split = text.split("\n",1)
+                        if animate_split[0] == "inanimate"
+                            print("The " + enemy + " just sits there.\n")
+                            continue_fight = "n"
+                        
                    #start the "continue fight" loop
                     weapon = 'fists'
                     while continue_fight == "y":
