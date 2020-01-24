@@ -465,7 +465,7 @@ def interact_model(
                     else:
                         continue_fight = "n"
                         print("That opponent doesn't appear in the room description.")
-                   if continue_fight == "y":
+                    if continue_fight == "y":
                         is_animate = animate_prompt + "\n" + enemy + ":"
                         text = GetGen.generate(is_animate)
                         animate_split = text.split("\n",1)
