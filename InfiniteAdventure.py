@@ -209,7 +209,7 @@ def interact_model(
     f=open("src/items.txt", "r", errors='ignore')
     if f.mode == 'r':
         items_prompt =f.read()
-    f=open("src/items.txt", "r", errors='ignore')
+    f=open("src/animate.txt", "r", errors='ignore')
     if f.mode == 'r':
         animate_prompt =f.read()
     
