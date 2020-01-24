@@ -471,7 +471,7 @@ def interact_model(
                         print(text)
                         animate_split = text.split("\n",1)
                         print(animate_split[0])
-                        if animate_split[0] == "inanimate":
+                        if animate_split[0] == " inanimate":
                             print("The " + enemy + " just sits there.\n")
                             continue_fight = "n"
                         
