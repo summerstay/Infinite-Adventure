@@ -30,6 +30,8 @@ Gameplay instructions:
 
  * drop OBJECT -- drops an object from your inventory.
  
+ * talk PERSON -- speak with someone in the current room.
+ 
  * observe -- shows a list of items in the room. Useful if you want to pick something up not explicitly in the description.
 
  * inventory -- prints your inventory.
