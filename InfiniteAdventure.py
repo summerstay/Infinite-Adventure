@@ -463,8 +463,8 @@ def interact_model(
                                     print(next_object + ' says, "' + response + '"')
                                     full_talk_prompt = talk_prompt + response +'"\n'
                                     #print("full_talk_prompt = " + full_talk_prompt)
-                        else:
-                            print('try "talk PERSON" where "PERSON" is in the room description.")
+                    else:
+                        print('try "talk PERSON" where "PERSON" is in the room description.")
 
     
                 elif next_verb == "regenerate":
