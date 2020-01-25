@@ -447,7 +447,7 @@ def interact_model(
                             text = description_gen.generate(talk_prompt)
                             print("text =" + text)
                             split_text = text.split('"')
-                            print("split_text = " + split_text)
+                            print(split_text)
                             response = split_text[0]
                             print("response = " + response)
                             full_talk_prompt = talk_prompt + response +'"\n'
