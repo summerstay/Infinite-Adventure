@@ -442,7 +442,7 @@ def interact_model(
                         if you_say == '':
                             continue_chat = "n"
                         else:
-                            talk_prompt = full_talk_prompt + input_persona + ' says,"' + you_say + '"\n" + next_object + ' says ,"'
+                            talk_prompt = full_talk_prompt + input_persona + ' says,"' + you_say + '"\n' + next_object + ' says ,"'
                             print("talk_prompt = " + talk_prompt)
                             text = description_gen.generate(talk_prompt)
                             print("text =" + text)
