@@ -216,7 +216,7 @@ def interact_model(
     config = tf.ConfigProto(intra_op_parallelism_threads=16, inter_op_parallelism_threads=2, allow_soft_placement=True, device_count={'CPU': 32})
 #   with tf.Session(config=config, graph=tf.Graph()) as sess:
     with tf.Session(graph=tf.Graph()) as sess:
-        print("Loading description generator...")
+        print("The next two loads take about 10 minutes. Sorry for the wait.\nLoading description generator...")
         description_gen = DescriptionGen(sess)
         print("Loading get generator...")
         get_gen = GetGen(sess)
@@ -243,6 +243,7 @@ def interact_model(
             "system will tell you.\n\n"
             " * use OBJECT -- will only work with items in your inventory.\n\n"
             " * drop OBJECT -- drops an object from your inventory.\n\n"
+            " * talk PERSON -- talk to a person in the current room. \n\n"
             " * inventory -- prints your inventory.\n\n"
             " * observe -- shows a list of items in the room. Useful if you "
             " want to pick something up not explicitly in the description.\n\n"
@@ -434,24 +435,36 @@ def interact_model(
                     descriptions[current_room] = descriptions[current_room] + outtext
                 
                 elif next_verb == "talk":
-                    print("Talking to " + next_object)
-                    continue_chat = "y"
-                    full_talk_prompt = ''
-                    while continue_chat == "y":
-                        you_say = input("What do you say? (Just press enter to quit chat mode.)")
-                        if you_say == '':
+                    partner = next_object
+                    if partner in descriptions[current_room]:
+                        is_animate = animate_prompt + "\n" + partner + ":"
+                        text = get_gen.generate(is_animate)
+                        animate_split = text.split("\n",1)
+                        if animate_split[0] == " inanimate":
+                            print("The " + partner + " just sit/s there.\n")
                             continue_chat = "n"
                         else:
-                            talk_prompt = full_talk_prompt + input_persona + ' says, "' + you_say + '"\n' + next_object + ' says, "'
-                            #print("talk_prompt = " + talk_prompt)
-                            text = description_gen.generate(talk_prompt)
-                            #print("text =" + text)
-                            split_text = text.split('"')
-                            #print(split_text)
-                            response = split_text[0]
-                            print(next_object + ' says, "' + response)
-                            full_talk_prompt = talk_prompt + response +'"\n'
-                            #print("full_talk_prompt = " + full_talk_prompt)
+                            print("Talking to " + next_object)
+                            continue_chat = "y"
+                            full_talk_prompt = ''
+                            while continue_chat == "y":
+                                you_say = input("What do you say? (Just press enter to quit chat mode.)")
+                                if you_say == '':
+                                    continue_chat = "n"
+                                    descriptions[current_room] = descriptions[current_room] + '\nYou spoke with ' + next_object + '.\n'
+                                else:
+                                    talk_prompt = full_talk_prompt + input_persona + ' says, "' + you_say + '"\n' + next_object + ' says, "'
+                                    #print("talk_prompt = " + talk_prompt)
+                                    text = description_gen.generate(talk_prompt)
+                                    #print("text =" + text)
+                                    split_text = text.split('"')
+                                    #print(split_text)
+                                    response = split_text[0]
+                                    print(next_object + ' says, "' + response)
+                                    full_talk_prompt = talk_prompt + response +'"\n'
+                                    #print("full_talk_prompt = " + full_talk_prompt)
+                        else:
+                            print('try "talk PERSON" where "PERSON" is in the room description.")
 
     
                 elif next_verb == "regenerate":
