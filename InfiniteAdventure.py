@@ -460,7 +460,7 @@ def interact_model(
                                     split_text = text.split('"')
                                     #print(split_text)
                                     response = split_text[0]
-                                    print(next_object + ' says, "' + response)
+                                    print(next_object + ' says, "' + response + '"')
                                     full_talk_prompt = talk_prompt + response +'"\n'
                                     #print("full_talk_prompt = " + full_talk_prompt)
                         else:
