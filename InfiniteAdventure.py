@@ -442,16 +442,16 @@ def interact_model(
                         if you_say == '':
                             continue_chat = "n"
                         else:
-                            talk_prompt = full_talk_prompt + input_persona + ' says,"' + you_say + '"\n' + next_object + ' says ,"'
-                            print("talk_prompt = " + talk_prompt)
+                            talk_prompt = full_talk_prompt + input_persona + ' says, "' + you_say + '"\n' + next_object + ' says, "'
+                            #print("talk_prompt = " + talk_prompt)
                             text = description_gen.generate(talk_prompt)
-                            print("text =" + text)
+                            #print("text =" + text)
                             split_text = text.split('"')
-                            print(split_text)
+                            #print(split_text)
                             response = split_text[0]
-                            print("response = " + response)
+                            print(next_object + ' says, "' + response)
                             full_talk_prompt = talk_prompt + response +'"\n'
-                            print("full_talk_prompt = " + full_talk_prompt)
+                            #print("full_talk_prompt = " + full_talk_prompt)
 
     
                 elif next_verb == "regenerate":
