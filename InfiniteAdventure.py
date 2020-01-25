@@ -432,6 +432,27 @@ def interact_model(
                     outtext = "\nThe following objects are also in the room: " + comma_separated
                     wrap_print(outtext)
                     descriptions[current_room] = descriptions[current_room] + outtext
+                
+                elif next_verb == "talk":
+                    print("Talking to " + next_object)
+                    continue_chat = "y"
+                    full_talk_prompt = ''
+                    while continue_chat == "y":
+                        you_say = input("What do you say? (Just press enter to quit chat mode.)")
+                        if you_say == '':
+                            continue_chat = "n"
+                        else:
+                            talk_prompt = full_talk_prompt + input_persona + ' says,"' + you_say + '"\n" + next_object + ' says ,"'
+                            print("talk_prompt = " + talk_prompt)
+                            text = description_gen.generate(talk_prompt)
+                            print("text =" + text)
+                            split_text = text.split('"')
+                            print("split_text = " + split_text)
+                            response = split_text[0]
+                            print("response = " + response)
+                            full_talk_prompt = talk_prompt + response +'"\n'
+                            print("full_talk_prompt = " + full_talk_prompt)
+
     
                 elif next_verb == "regenerate":
                     descriptions[current_room]=''
