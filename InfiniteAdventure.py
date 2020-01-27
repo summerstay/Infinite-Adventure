@@ -448,7 +448,7 @@ def interact_model(
                             continue_chat = "y"
                             full_talk_prompt = ''
                             while continue_chat == "y":
-                                you_say = input("What do you say? (Just press enter to quit chat mode.)")
+                                you_say = input("What do you say? (Just press enter to quit chat mode.) >>>")
                                 if you_say == '':
                                     continue_chat = "n"
                                     descriptions[current_room] = descriptions[current_room] + '\nYou spoke with ' + next_object + '.\n'
