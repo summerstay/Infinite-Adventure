@@ -455,7 +455,7 @@ def interact_model(
                                     descriptions[current_room] = descriptions[current_room] + '\nYou spoke with ' + partner + '.\n'
                                 else:
                                     talk_prompt = full_talk_prompt + input_persona + ' says, "' + you_say + '"\n' + partner + ', remembering about the ' + random_room + ' says, "'
-                                    print("talk_prompt = " + talk_prompt)
+                                    #print("talk_prompt = " + talk_prompt)
                                     text = description_gen.generate(talk_prompt)
                                     #print("text =" + text)
                                     split_text = text.split('"')
