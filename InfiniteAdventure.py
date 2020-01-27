@@ -447,7 +447,7 @@ def interact_model(
                             print("Talking to " + next_object)
                             continue_chat = "y"
                             random_room = random.choice(rooms)
-                            full_talk_prompt = partner + "wants very badly to get " + input_persona + " to go to the " + random_room + '.'                            
+                            full_talk_prompt = partner + " wants very badly to get " + input_persona + " to go to the " + random_room + '. '                            
                             while continue_chat == "y":
                                 you_say = input("What do you say? (Just press enter to quit chat mode.) >>>")
                                 if you_say == '':
