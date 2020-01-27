@@ -522,7 +522,7 @@ def interact_model(
                                 action = "hit"
                             else:
                                 action = action[0]
-                       if action in {"quit","stop","surrender","hide","escape","run","flee"}:
+                       if action in {"quit","stopped","surrendered","hid","escaped","ran","fled"}:
                             print("You got away.")
                             continue_fight = "n"
                             break
