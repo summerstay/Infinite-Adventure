@@ -454,7 +454,7 @@ def interact_model(
                                     continue_chat = "n"
                                     descriptions[current_room] = descriptions[current_room] + '\nYou spoke with ' + partner + '.\n'
                                 else:
-                                    talk_prompt = full_talk_prompt + input_persona + ' says, "' + you_say + '"\n' + partner + ', remembering about the ' + random_room + ' says, "'
+                                    talk_prompt = full_talk_prompt + input_persona + ' says, "' + you_say + '"\n' + partner + ' tries to tell you about the ' + random_room + ': "'
                                     #print("talk_prompt = " + talk_prompt)
                                     text = description_gen.generate(talk_prompt)
                                     #print("text =" + text)
