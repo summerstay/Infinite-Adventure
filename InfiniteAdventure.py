@@ -447,14 +447,14 @@ def interact_model(
                             print("Talking to " + next_object)
                             continue_chat = "y"
                             random_room = random.choice(rooms)
-                            full_talk_prompt = partner + " wants very badly to get " + input_persona + " to go to the " + random_room + '. '                            
+                            full_talk_prompt = 'This is how the ' + partner + " told " + input_persona + " to go to the " + random_room + '. '                            
                             while continue_chat == "y":
                                 you_say = input("What do you say? (Just press enter to quit chat mode.) >>>")
                                 if you_say == '':
                                     continue_chat = "n"
                                     descriptions[current_room] = descriptions[current_room] + '\nYou spoke with ' + partner + '.\n'
                                 else:
-                                    talk_prompt = full_talk_prompt + input_persona + ' says, "' + you_say + '"\n' + partner + ' tells ' + input_persona + ' to go to the ' + random_room + ': "'
+                                    talk_prompt = full_talk_prompt + input_persona + ' says, "' + you_say + '"\n' + partner + ' says: "'
                                     #print("talk_prompt = " + talk_prompt)
                                     text = description_gen.generate(talk_prompt)
                                     #print("text =" + text)
