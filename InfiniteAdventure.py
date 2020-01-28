@@ -448,6 +448,11 @@ def interact_model(
                             continue_chat = "y"
                             random_room = random.choice(rooms)
                             full_talk_prompt = 'If the '+partner+' wants '+input_persona+' to go to the library, the '+partner+' might say, "You really need to the library." If '+input_persona+' is supposed to go to the beach, the '+partner+' could say, "It is important for you to find the beach." If '+input_persona+' has to go to the '+random_room+', the '+partner+' would say something like, "'                            
+                            text = description_gen.generate(full_talk_prompt)
+                            split_text = text.split('"')
+                            response = split_text[0]
+                            print(partner + ' says, "' + response + '"')
+                            full_talk_prompt = full_talk_prompt + response +'"\n'
                             while continue_chat == "y":
                                 you_say = input("What do you say? (Just press enter to quit chat mode.) >>>")
                                 if you_say == '':
@@ -461,7 +466,7 @@ def interact_model(
                                     split_text = text.split('"')
                                     #print(split_text)
                                     response = split_text[0]
-                                    print(next_object + ' says, "' + response + '"')
+                                    print(partner + ' says, "' + response + '"')
                                     full_talk_prompt = talk_prompt + response +'"\n'
                                     #print("full_talk_prompt = " + full_talk_prompt)
                     else:
