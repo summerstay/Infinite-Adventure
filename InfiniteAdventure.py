@@ -451,7 +451,7 @@ def interact_model(
                             text = description_gen.generate(full_talk_prompt)
                             split_text = text.split('"')
                             response = split_text[0]
-                            full_talk_prompt = 'The '+partner+'says, "'+ response +'"\n'
+                            full_talk_prompt = 'The '+partner+' says, "'+ response +'"\n'
                             print(full_talk_prompt)           
                             while continue_chat == "y":
                                 you_say = input("What do you say? (Just press enter to quit chat mode.) >>>")
