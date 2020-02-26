@@ -42,3 +42,5 @@ Each location records what has happened at that location and uses that record to
 
 About the game:
 Obviously this is a really rough draft, but I think it shows a few things that are possible in this genre beyond what has already been done in AI Dungeon and without any finetuning training. It is very slow on CPU (about 60 seconds to generate a room description) and uses too much memory for most GPUs. See if you can come up with better prompts in carrying.txt, rooms.txt, or in the variable "description generator" or "prompt" in the "fight" case in InfiniteAdventure.py. I appreciate any bug reports.
+
+I added a version of the main file that uses huggingface-transformers and the GPT-2 model trained on adventure games for the AI Dungeon 2 standalone.
