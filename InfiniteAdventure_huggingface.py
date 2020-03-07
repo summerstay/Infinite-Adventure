@@ -20,6 +20,25 @@ def top_k_logits(logits, k):
     #print(indices)
     min_values = values[:, -1]
     return torch.where(logits < min_values, torch.ones_like(logits, dtype=logits.dtype) * -1e10, logits), min_values
+
+def top_p_logits(logits, temperature, top_p):
+    logits = logits / temperature
+    sorted_logits, sorted_indices = torch.sort(logits, descending=True)
+    cumulative_probs = torch.cumsum(F.softmax(sorted_logits, dim=-1), dim=-1)
+
+    # Remove tokens with cumulative probability above the threshold
+    sorted_indices_to_remove = cumulative_probs >= top_p
+    # Shift the indices to the right to keep also the first token above the threshold
+    sorted_indices_to_remove[..., 1:] = sorted_indices_to_remove[..., :-1].clone()
+    sorted_indices_to_remove[..., 0] = 0
+    sorted_indices_to_remove = torch.tensor(sorted_indices_to_remove, dtype=torch.uint8)
+    
+    zero_tensor =  torch.zeros_like(logits, dtype=torch.uint8)
+
+    indices_to_remove =zero_tensor.scatter_( dim=-1, index=sorted_indices, src=sorted_indices_to_remove )
+    filter_value=-float('Inf')
+    logits[indices_to_remove] = filter_value
+    return logits
  
 def wrap_print(body='', wrap_length=80 ):
     if isinstance(body, str): 
@@ -107,7 +126,9 @@ def rooms_cleanup(
     rooms3 = list(filter(None, rooms3))
     return rooms3
 
-def generate(tokenizer, model, prompt, length,topk):
+def generate(tokenizer, model, prompt, length,top_k):
+    temperature = 0.9
+    top_p = 0.9
     indexed_tokens = tokenizer.encode(prompt)
     input_ids = torch.tensor(indexed_tokens).unsqueeze(0) # Batch size 1
     inputs = {'input_ids': input_ids}
@@ -117,12 +138,15 @@ def generate(tokenizer, model, prompt, length,topk):
         print("*",end="", flush=True)
         logits, past = model(**inputs, past=past)
         logits = logits[:, -1, :] 
-        logits, values = top_k_logits(logits, k=topk)
+        logits, values = top_k_logits(logits, k=top_k)
+        logits = top_p_logits(logits,temperature,top_p)
         log_probs = F.softmax(logits, dim=-1)
         next_token = torch.multinomial(log_probs, num_samples=1)
         tokens.append(next_token)
         input_ids = torch.cat([input_ids, next_token], dim=1)
         inputs = {'input_ids': next_token}
+        if past[0].size()[3]>1020:
+            break
     text = tokenizer.decode(tokens)
     print("")
     return text
@@ -246,7 +270,7 @@ def interact_model(
             rooms=[]
             for _ in range(4 // batch_size):
                 print("*", end =" ")
-                text = generate(tokenizer, model, raw_text,30)
+                text = generate(tokenizer, model, raw_text, 70, 30)
                 rooms = rooms + rooms_cleanup(text)           
             
             #remove duplicates from the list of rooms
@@ -265,9 +289,8 @@ def interact_model(
  ### main loop
             if "".__eq__(descriptions[current_room]):            
                 # print("\n" + rooms[current_room] + "\n")
-                #description_prompt = 'The following excerpt from a novel is a long and detailed description of the ' + input_atmosphere + ' things found in the ' + rooms[current_room] + ':\nYou are ' + input_persona + '. You are in the ' + rooms[current_room] + ' within the ' + input_location + '. Here is what you see there:'
-                #description_prompt = 'The following excerpt from a novel is a long and detailed description of the ' + input_atmosphere + ' things found in the ' + rooms[current_room] + ':\nYou were ' + input_persona + '. You were in the ' + rooms[current_room] + ' within the ' + input_location + '. Here is what you saw there:'
-                description_prompt = 'You were ' + input_persona + '. Previously, you were within a small stone room. Here is what you beheld: There were two chairs and a small table covered with various odds and ends. There was one small window and the floors were unswept. Later, you were in the ' + rooms[current_room] + ' of a ' + input_atmosphere + ' ' + input_location + '. You looked about at the furnishings of the ' + rooms[current_room] +'.'
+                description_prompt = 'The following excerpt from a novel is a long and detailed description of the ' + input_atmosphere + ' things found in the ' + rooms[current_room] + ':\nYou were ' + input_persona + '. You were in the ' + rooms[current_room] + ' within the ' + input_location + '. Here is what you saw there:'
+                #description_prompt = 'You were ' + input_persona + '. Previously, you were within a small stone room. Here is what you beheld: There were two chairs and a small table covered with various odds and ends. There was one small window and the floors were unswept. Later, you were in the ' + rooms[current_room] + ' of a ' + input_atmosphere + ' ' + input_location + '. You looked about at the furnishings of the ' + rooms[current_room] +'.'
                
                 print("running description generator")
                 text = generate(tokenizer, model,description_prompt,120,30)
@@ -358,11 +381,11 @@ def interact_model(
                     print("generating list of some objects found in this room...")
                     items = []
                     for _ in range(3 // batch_size):
-                        text = generate(tokenizer, model,items_prompt + "\n" + rooms[current_room] + "of" + input_location + ":",50,30)
+                        text = generate(tokenizer, model,items_prompt + "\n" + rooms[current_room] + "of" + input_location + ":",40,30)
                         items = items + rooms_cleanup(text)           
                     #remove duplicates from the list of items
-                    #set_items=set(items)
-                    items = list(items)
+                    set_items=set(items)
+                    items = list(set_items)
                     comma_separated = ', '.join(items) 
                     outtext = "\nThe following objects are also in the room: " + comma_separated
                     wrap_print(outtext)
@@ -372,7 +395,7 @@ def interact_model(
                     partner = next_object
                     if partner in descriptions[current_room]:
                         is_animate = animate_prompt + "\n" + partner + ":"
-                        text = generate(tokenizer, model,is_animate,10,1)
+                        text = generate(tokenizer, model,is_animate,4,1)
                         animate_split = text.split("\n",1)
                         if animate_split[0] == " inanimate":
                             print("The " + partner + " just sit/s there.\n")
@@ -382,7 +405,7 @@ def interact_model(
                             continue_chat = "y"
                             random_room = random.choice(rooms)
                             full_talk_prompt = 'If the '+partner+' wants '+input_persona+' to go to the library, the '+partner+' might say, "You really need to the library." If '+input_persona+' is supposed to go to the beach, the '+partner+' could say, "It is important for you to find the beach." If '+input_persona+' has to go to the '+random_room+', the '+partner+' would say something like, "'                            
-                            text = generate(tokenizer, model,full_talk_prompt,100,30)
+                            text = generate(tokenizer, model,full_talk_prompt,50,30)
                             split_text = text.split('"')
                             response = split_text[0]
                             full_talk_prompt = partner+' says, "'+ response +'"\n'
@@ -395,7 +418,7 @@ def interact_model(
                                 else:
                                     talk_prompt = full_talk_prompt + input_persona + ' says, "' + you_say + '"\n' + partner + ', still trying to persuade '+input_persona+' to go to the '+random_room+' says: "'
                                     #print("talk_prompt = " + talk_prompt)
-                                    text = generate(tokenizer, model,talk_prompt,30)
+                                    text = generate(tokenizer, model,talk_prompt,50,30)
                                     #print("text =" + text)
                                     split_text = text.split('"')
                                     #print(split_text)
@@ -442,7 +465,7 @@ def interact_model(
                         print("That opponent doesn't appear in the room description.")
                     if continue_fight == "y":
                         is_animate = animate_prompt + "\n" + enemy + ":"
-                        text = generate(tokenizer, model,is_animate,10,1)
+                        text = generate(tokenizer, model,is_animate,4,1)
                         animate_split = text.split("\n",1)
                         if animate_split[0] == " inanimate":
                             print("The " + enemy + " just sit/s there.\n")
@@ -481,7 +504,7 @@ def interact_model(
                            #generate response
                            start_sentence = "You " + action + " " + enemy + " with your " + weapon                    
                            prompt = "You are " + input_persona + ". Your adversary, " + enemy + ", faced off agaist you. You attacked with a mighty stroke, slicing " + enemy + "'s arm.\n" + enemy + " fought back, wounding your shoulder.\n You pressed your attack, wounding " + enemy + "'s leg.\n" + enemy + " tried again, but missed.\nYou pressed forward and took a mighty swing, but " + enemy + " escaped.\n" + enemy + " charged, dealing a heavy wound.\nYou managed to deal a nearly fatal blow, almost killing " + enemy + ".\n" + enemy + " let loose an onslaught, lightly wounding your arm.\nYou struck, but " + enemy + " got away unscathed.\n" + enemy + " retaliated with a barrage, doing heavy damage.\nYou fought back, rushing " + enemy + " and knocking " + enemy + " to the ground.\nYou rallied and caught " + enemy + " offguard.\n" + enemy + " blocked and returned the attack with a vicious strike.\nYou managed to get past " + enemy + "'s defenses and dealt a wound.\n" + enemy + " lunged, but missed by a mile.\nYou feinted to the left and struck to the right, but missed doing any damage.\n" + enemy + " knocked you off your feet with a heavy blow.\nYou fired away, successfully penetrating " + enemy + "'s defense.\n" + start_sentence
-                           text = generate(tokenizer, model,prompt,10,30)
+                           text = generate(tokenizer, model,prompt,40,30)
                            text=other_cleanup(text)
                            text = start_sentence + text
                            sentences = text.split("\n")
