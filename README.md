@@ -2,13 +2,9 @@
 My own take on something like AI Dungeon.
 
 Install instuctions:
-You first should install and get working GPT-2 from openAI (https://github.com/nshepperd/gpt-2). This requires Python 3.7 since Tensorflow won't work on Python 3.8 yet. Note that OpenAI has made some minor changes to their code since this version so you should use the version of GPT-2 I linked to.
-You will need to download their 1558M model into the "models" subfolder of GPT-2:
+I recommend using the huggingface version of this game. To use it, you should first install huggingface Transformers using these instructions:
+https://huggingface.co/transformers/installation.html
 
-python download_model.py 1558M
-
-All of the files for infinite-adventure go in the "src" subfolder of that project.
-The game can save game files to that directory, so make sure it has permissions to do so.
 The game has the following additional dependencies (besides GPT-2):
 json, os, random, pickle, textwrap (which all come with most versions of python 3) and numpy, fire, tensorflow 1.14, pyinflect (which you'll need to install).
 You can install most of these using "pip install".
