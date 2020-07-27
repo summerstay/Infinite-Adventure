@@ -4,6 +4,7 @@ My own take on something like AI Dungeon.
 Install instuctions:
 I recommend using the huggingface version of this game. To use it, you should first install huggingface Transformers using these instructions:
 https://huggingface.co/transformers/installation.html
+The first time you use it, it will automatically download the 6GB neural network model GPT-2 into its cache directory. This can take a while.
 
 The game has the following additional dependencies (besides GPT-2):
 json, os, random, pickle, textwrap (which all come with most versions of python 3) and numpy, fire, tensorflow 1.14, pyinflect (which you'll need to install).
